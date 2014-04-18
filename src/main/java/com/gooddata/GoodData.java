@@ -7,6 +7,7 @@ import com.gooddata.account.AccountService;
 import com.gooddata.dataset.DatasetService;
 import com.gooddata.gdc.DataStoreService;
 import com.gooddata.gdc.GdcService;
+import com.gooddata.generic.GenericService;
 import com.gooddata.http.client.GoodDataHttpClient;
 import com.gooddata.http.client.LoginSSTRetrievalStrategy;
 import com.gooddata.http.client.SSTRetrievalStrategy;
@@ -45,6 +46,7 @@ public class GoodData {
     private final DataStoreService dataStoreService;
     private final DatasetService datasetService;
     private final ReportService reportService;
+    private final GenericService genericService;
 
     public GoodData(String login, String password) {
         this(HOSTNAME, login, password);
@@ -62,6 +64,7 @@ public class GoodData {
         dataStoreService = new DataStoreService(httpClientBuilder, gdcService, login, password);
         datasetService = new DatasetService(restTemplate, dataStoreService);
         reportService = new ReportService(restTemplate);
+        genericService = new GenericService(restTemplate);
     }
 
     private RestTemplate createRestTemplate(String hostname, String login, String password, HttpClientBuilder httpClientBuilder) {
@@ -116,4 +119,7 @@ public class GoodData {
         return reportService;
     }
 
+    public GenericService getGenericService() {
+        return genericService;
+    }
 }
