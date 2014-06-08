@@ -31,8 +31,8 @@ public class ReportDefinitionTest {
     public void testSerialization() throws Exception {
         final ReportDefinition def = new ReportDefinition("Untitled",
                 new OneNumberReportDefinitionContent(
-                        new Grid(Collections.<String>emptyList(), Collections.<GridElement>emptyList(),
-                                Collections.<GridElement>emptyList()), "desc")
+                        new Grid(Collections.<String>emptyList(), Collections.<DisplayFormGridElement>emptyList(),
+                                Collections.<MetricGridElement>emptyList()), "desc")
         );
         assertThat(def, serializesToJson("/md/report/oneNumberReportDefinition-input.json"));
     }

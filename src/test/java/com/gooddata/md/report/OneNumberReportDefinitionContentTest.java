@@ -29,8 +29,8 @@ public class OneNumberReportDefinitionContentTest {
     @Test
     public void testSerialization() throws Exception {
         final OneNumberReportDefinitionContent def = new OneNumberReportDefinitionContent(
-                new Grid(Collections.<String>emptyList(), Collections.<GridElement>emptyList(),
-                        Collections.<GridElement>emptyList()), "desc"
+                new Grid(Collections.<String>emptyList(), Collections.<DisplayFormGridElement>emptyList(),
+                        Collections.<MetricGridElement>emptyList()), "desc"
         );
         assertThat(def, serializesToJson("/md/report/oneNumberReportDefinitionContent-input.json"));
     }

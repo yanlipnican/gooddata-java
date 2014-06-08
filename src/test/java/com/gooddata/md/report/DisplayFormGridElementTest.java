@@ -18,15 +18,15 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.isOneOf;
 import static org.junit.Assert.assertThat;
 
-public class AttributeInGridTest {
+public class DisplayFormGridElementTest {
 
     public static final String URI = "/URI";
     public static final String ALIAS = "ALIAS";
 
     @Test
     public void testDeserialization() throws Exception {
-        final InputStream is = getClass().getResourceAsStream("/md/report/attributeInGrid.json");
-        final AttributeInGrid attr = new ObjectMapper().readValue(is, AttributeInGrid.class);
+        final InputStream is = getClass().getResourceAsStream("/md/report/displayFormGridElement.json");
+        final DisplayFormGridElement attr = new ObjectMapper().readValue(is, DisplayFormGridElement.class);
 
         assertThat(attr, is(notNullValue()));
         assertThat(attr.getUri(), is(URI));
@@ -48,8 +48,8 @@ public class AttributeInGridTest {
     public void testSerialization() throws Exception {
         final Collection<Collection<String>> totals = asList((Collection<String>) asList("TOTAL1"),
                 asList("TOTAL2", "TOTAL3"));
-        final AttributeInGrid attr = new AttributeInGrid(URI, totals, ALIAS);
-        assertThat(attr, serializesToJson("/md/report/attributeInGrid.json"));
+        final DisplayFormGridElement attr = new DisplayFormGridElement(URI, totals, ALIAS);
+        assertThat(attr, serializesToJson("/md/report/displayFormGridElement.json"));
     }
 
 }

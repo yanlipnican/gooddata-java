@@ -8,6 +8,8 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
+import static com.gooddata.Validate.notNull;
+
 /**
  * Grid element
  * (metricGroup | URI | AttributeInGrid ... URI is allowed for backward compatibility, metricGroup can be maximally
@@ -15,14 +17,14 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
-public class GridElement {
+abstract class AbstractGridElement {
 
     private final String uri;
     private final String alias;
 
     @JsonCreator
-    public GridElement(@JsonProperty("uri") String uri, @JsonProperty("alias") String alias) {
-        this.uri = uri;
+    public AbstractGridElement(@JsonProperty("uri") String uri, @JsonProperty("alias") String alias) {
+        this.uri = notNull(uri, "uri");
         this.alias = alias;
     }
 

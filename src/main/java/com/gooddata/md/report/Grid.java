@@ -22,15 +22,15 @@ import java.util.Map;
 public class Grid {
 
     private final Collection<String> columns;
-    private final Collection<GridElement> rows;
-    private final Collection<GridElement> metrics;
+    private final Collection<DisplayFormGridElement> rows;
+    private final Collection<MetricGridElement> metrics;
     private final Map<String, List<String>> sort;
     private final Collection<Map<String, Object>> columnWidths;
 
     @JsonCreator
     public Grid(@JsonProperty("columns") Collection<String> columns,
-                @JsonProperty("rows") Collection<GridElement> rows,
-                @JsonProperty("metrics") Collection<GridElement> metrics,
+                @JsonProperty("rows") Collection<DisplayFormGridElement> rows,
+                @JsonProperty("metrics") Collection<MetricGridElement> metrics,
                 @JsonProperty("sort") Map<String, List<String>> sort,
                 @JsonProperty("columnWidths") Collection<Map<String, Object>> columnWidths) {
         this.columns = columns;
@@ -40,8 +40,8 @@ public class Grid {
         this.columnWidths = columnWidths;
     }
 
-    public Grid(final Collection<String> columns, final Collection<GridElement> rows,
-                final Collection<GridElement> metrics) {
+    public Grid(final Collection<String> columns, final Collection<DisplayFormGridElement> rows,
+                final Collection<MetricGridElement> metrics) {
         this.columns = columns;
         this.rows = rows;
         this.metrics = metrics;
@@ -55,11 +55,11 @@ public class Grid {
         return columns;
     }
 
-    public Collection<GridElement> getRows() {
+    public Collection<DisplayFormGridElement> getRows() {
         return rows;
     }
 
-    public Collection<GridElement> getMetrics() {
+    public Collection<MetricGridElement> getMetrics() {
         return metrics;
     }
 
