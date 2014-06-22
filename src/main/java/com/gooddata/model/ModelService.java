@@ -16,9 +16,12 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.Collection;
+import java.util.HashSet;
 
 import static com.gooddata.Validate.notEmpty;
 import static com.gooddata.Validate.notNull;
+import static com.gooddata.model.ModelDiff.UpdateScript;
 
 /**
  * Service for manipulating with project model
@@ -29,7 +32,7 @@ public class ModelService extends AbstractService {
         super(restTemplate);
     }
 
-    public FutureResult<ModelDiff> getProjectModelDiff(Project project, DiffRequest diffRequest) {
+    private FutureResult<ModelDiff> getProjectModelDiff(Project project, DiffRequest diffRequest) {
         notNull(project, "project");
         notNull(diffRequest, "diffRequest");
         try {
@@ -57,13 +60,41 @@ public class ModelService extends AbstractService {
         }
     }
 
-    public void updateProjectModel(Project project, ModelDiff projectModelDiff) {
+    /**
+     * Update project model with the MAQL script from given ModelDiff with the least side-effects
+     * (see {@link ModelDiff#getUpdateMaql()}).
+     *
+     * @param project   project to be updated
+     * @param modelDiff difference of model to be applied into the project
+     * @return collection of results (task statuses) of execution of all MAQL script chunks
+     */
+    public Collection<FutureResult<MaqlDdlTaskStatus>> updateProjectModel(Project project, ModelDiff modelDiff) {
         notNull(project, "project");
-        notNull(projectModelDiff, "projectModelDiff");
+        notNull(modelDiff, "modelDiff");
+        final Collection<FutureResult<MaqlDdlTaskStatus>> results = new HashSet<>();
 
-        for (String maql : projectModelDiff.getUpdateMaql()) {
-            updateProjectModel(project, maql);
+        for (String maql : modelDiff.getUpdateMaql()) {
+            results.add(updateProjectModel(project, maql));
         }
+        return results;
+    }
+
+    /**
+     * Update project model with the given update script (MAQL).
+     *
+     * @param project      project to be updated
+     * @param updateScript update script to be executed in the project
+     * @return collection of results (task statuses) of execution of all MAQL script chunks
+     */
+    public Collection<FutureResult<MaqlDdlTaskStatus>> updateProjectModel(Project project, UpdateScript updateScript) {
+        notNull(project, "project");
+        notNull(updateScript, "updateScript");
+        final Collection<FutureResult<MaqlDdlTaskStatus>> results = new HashSet<>();
+
+        for (String maql : updateScript.getMaqlChunks()) {
+            results.add(updateProjectModel(project, maql));
+        }
+        return results;
     }
 
     public FutureResult<Void> updateProjectModel(Project project, String maqlDdl) {
