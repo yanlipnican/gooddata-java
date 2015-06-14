@@ -20,11 +20,9 @@ import com.gooddata.project.ProjectService;
 import com.gooddata.report.ReportService;
 import org.apache.http.HttpHost;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
-import org.apache.http.util.VersionInfo;
 import org.springframework.http.MediaType;
+import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
@@ -32,6 +30,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Arrays;
 
 import static com.gooddata.util.Validate.notEmpty;
+import static com.gooddata.util.Validate.notNull;
 import static java.util.Collections.singletonMap;
 import static org.apache.http.util.VersionInfo.loadVersionInfo;
 
@@ -55,7 +54,6 @@ public class GoodData {
     protected static final String PROTOCOL = "https";
     protected static final int PORT = 443;
     protected static final String HOSTNAME = "secure.gooddata.com";
-    private static final String UNKNOWN_VERSION = "UNKNOWN";
 
     private static final int RESTAPI_VERSION = 1;
 
@@ -164,10 +162,13 @@ public class GoodData {
         notEmpty(login, "login");
         notEmpty(password, "password");
         notEmpty(protocol, "protocol");
-        final HttpClient httpClient = createHttpClient(login, password, hostname, port, protocol,
-                createHttpClientBuilder(settings));
 
-        restTemplate = createRestTemplate(hostname, httpClient, port, protocol);
+        final HttpClient httpClient = createHttpClient(login, password, hostname, port, protocol,
+                GoodDataFactory.createHttpClientBuilder(settings));
+
+        final ClientHttpRequestFactory factory = new UriPrefixingClientHttpRequestFactory(
+                new HttpComponentsClientHttpRequestFactory(httpClient), hostname, port, protocol);
+        restTemplate = createRestTemplate(factory);
 
         accountService = new AccountService(getRestTemplate());
         projectService = new ProjectService(getRestTemplate(), accountService);
@@ -176,16 +177,35 @@ public class GoodData {
         gdcService = new GdcService(getRestTemplate());
         dataStoreService = new DataStoreService(httpClient, gdcService, new HttpHost(hostname, port, protocol).toURI());
         datasetService = new DatasetService(getRestTemplate(), dataStoreService);
-        reportService = new ReportService(getRestTemplate());
         processService = new ProcessService(getRestTemplate(), accountService, dataStoreService);
+        reportService = new ReportService(getRestTemplate());
         warehouseService = new WarehouseService(getRestTemplate());
         connectorService = new ConnectorService(getRestTemplate(), projectService);
     }
 
-    private RestTemplate createRestTemplate(String hostname, HttpClient httpClient, int port, String protocol) {
+    protected GoodData(HttpClient httpClient, String hostname, int port, String protocol) {
+        notNull(httpClient, "httpClient");
+        notEmpty(hostname, "hostname");
+        notEmpty(protocol, "protocol");
 
-        final UriPrefixingClientHttpRequestFactory factory = new UriPrefixingClientHttpRequestFactory(
+        final ClientHttpRequestFactory factory = new UriPrefixingClientHttpRequestFactory(
                 new HttpComponentsClientHttpRequestFactory(httpClient), hostname, port, protocol);
+        restTemplate = createRestTemplate(factory);
+
+        accountService = new AccountService(getRestTemplate());
+        projectService = new ProjectService(getRestTemplate(), accountService);
+        metadataService = new MetadataService(getRestTemplate());
+        modelService = new ModelService(getRestTemplate());
+        gdcService = new GdcService(getRestTemplate());
+        dataStoreService = new DataStoreService(httpClient, gdcService, new HttpHost(hostname, port, protocol).toURI());
+        datasetService = new DatasetService(getRestTemplate(), dataStoreService);
+        processService = new ProcessService(getRestTemplate(), accountService, dataStoreService);
+        reportService = new ReportService(getRestTemplate());
+        warehouseService = new WarehouseService(getRestTemplate());
+        connectorService = new ConnectorService(getRestTemplate(), projectService);
+    }
+
+    private RestTemplate createRestTemplate(ClientHttpRequestFactory factory) {
         final RestTemplate restTemplate = new RestTemplate(factory);
         restTemplate.setInterceptors(Arrays.<ClientHttpRequestInterceptor>asList(
                 new HeaderSettingRequestInterceptor(singletonMap("Accept", getAcceptHeaderValue()))));
@@ -193,22 +213,6 @@ public class GoodData {
         restTemplate.setErrorHandler(new ResponseErrorHandler(restTemplate.getMessageConverters()));
 
         return restTemplate;
-    }
-
-    private HttpClientBuilder createHttpClientBuilder(final GoodDataSettings settings) {
-        final PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
-        connectionManager.setDefaultMaxPerRoute(settings.getMaxConnections());
-        connectionManager.setMaxTotal(settings.getMaxConnections());
-
-        final RequestConfig.Builder requestConfig = RequestConfig.copy(RequestConfig.DEFAULT);
-        requestConfig.setConnectTimeout(settings.getConnectionTimeout());
-        requestConfig.setConnectionRequestTimeout(settings.getConnectionRequestTimeout());
-        requestConfig.setSocketTimeout(settings.getSocketTimeout());
-
-        return HttpClientBuilder.create()
-                .setUserAgent(getUserAgent())
-                .setConnectionManager(connectionManager)
-                .setDefaultRequestConfig(requestConfig.build());
     }
 
     /*
@@ -225,19 +229,6 @@ public class GoodData {
         final HttpClient httpClient = builder.build();
         final SSTRetrievalStrategy strategy = new LoginSSTRetrievalStrategy(httpClient, host, login, password);
         return new GoodDataHttpClient(httpClient, strategy);
-    }
-
-    private String getUserAgent() {
-        final Package pkg = Package.getPackage("com.gooddata");
-        final String clientVersion = pkg != null && pkg.getImplementationVersion() != null
-                ? pkg.getImplementationVersion() : UNKNOWN_VERSION;
-
-        final VersionInfo vi = loadVersionInfo("org.apache.http.client", HttpClientBuilder.class.getClassLoader());
-        final String apacheVersion = vi != null ? vi.getRelease() : UNKNOWN_VERSION;
-
-        return String.format("%s/%s (%s; %s) %s/%s", "GoodData-Java-SDK", clientVersion,
-                System.getProperty("os.name"), System.getProperty("java.specification.version"),
-                "Apache-HttpClient", apacheVersion);
     }
 
     /**
