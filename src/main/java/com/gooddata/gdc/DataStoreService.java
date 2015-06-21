@@ -34,10 +34,10 @@ public class DataStoreService {
      * @param user datastore user
      * @param pass datastore password
      */
-    public DataStoreService(HttpClientBuilder httClientBuilder, GdcService gdcService, String gdcUri, String user, String pass) {
+    public DataStoreService(HttpClientBuilder httClientBuilder, GdcService gdcService, String gdcUri) {
         this.gdcService = notNull(gdcService, "gdcService");
         this.gdcUri = URI.create(notEmpty(gdcUri, "gdcUri"));
-        sardine = new SardineImpl(httClientBuilder, user, pass);
+        sardine = new SardineImpl(httClientBuilder);
     }
 
     private UriPrefixer getPrefixer() {

@@ -237,7 +237,7 @@
         <dependency>
             <groupId>com.gooddata</groupId>
             <artifactId>gooddata-http-client</artifactId>
-            <version>0.8.3</version>
+            <version>0.9.0</version>
         </dependency>
         <dependency>
             <groupId>commons-lang</groupId>
@@ -370,6 +370,12 @@
             <artifactId>shazamcrest</artifactId>
             <version>0.11</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.gooddata.commons</groupId>
+            <artifactId>gdc-commons-http-client</artifactId>
+            <version>2.7.1</version>
         </dependency>
 
     </dependencies>

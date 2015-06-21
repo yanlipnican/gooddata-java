@@ -181,7 +181,7 @@ public class GoodData {
         metadataService = new MetadataService(getRestTemplate());
         modelService = new ModelService(getRestTemplate());
         gdcService = new GdcService(getRestTemplate());
-        dataStoreService = new DataStoreService(httpClientBuilder, gdcService, new HttpHost(hostname, port, protocol).toURI(), login, password);
+        dataStoreService = new DataStoreService(new GoodDataHttpClientBuilderClientWrapper(client), gdcService, new HttpHost(hostname, port, protocol).toURI());
         datasetService = new DatasetService(getRestTemplate(), dataStoreService);
         reportService = new ReportService(getRestTemplate());
         processService = new ProcessService(getRestTemplate(), accountService, dataStoreService);
@@ -204,9 +204,10 @@ public class GoodData {
         modelService = new ModelService(getRestTemplate());
         gdcService = new GdcService(getRestTemplate());
         // TODO use header auth
-        dataStoreService = null;//new DataStoreService(httpClientBuilder, gdcService, new HttpHost(hostname, port, protocol).toURI(), login, password);
-        datasetService = null;//new DatasetService(getRestTemplate(), dataStoreService);
-        processService = null;//new ProcessService(getRestTemplate(), accountService, dataStoreService);
+
+        dataStoreService = new DataStoreService(new GoodDataHttpClientBuilderClientWrapper(httpClient), gdcService, new HttpHost(hostname, port, protocol).toURI());
+        datasetService = new DatasetService(getRestTemplate(), dataStoreService);
+        processService = new ProcessService(getRestTemplate(), accountService, dataStoreService);
         reportService = new ReportService(getRestTemplate());
         warehouseService = new WarehouseService(getRestTemplate(), hostname, port);
         connectorService = new ConnectorService(getRestTemplate(), projectService);
