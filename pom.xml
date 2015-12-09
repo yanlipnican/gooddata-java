@@ -8,12 +8,6 @@
     <name>${project.artifactId}</name>
     <description>GoodData Java SDK</description>
 
-    <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>7</version>
-    </parent>
-
     <licenses>
         <license>
             <name>BSD License</name>
