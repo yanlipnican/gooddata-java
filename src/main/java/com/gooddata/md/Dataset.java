@@ -104,13 +104,13 @@ public class Dataset extends AbstractObj implements Queryable, Updatable {
                 @JsonProperty("facts") List<String> facts,
                 @JsonProperty("dataLoadingColumns") List<String> dataLoadingColumns,
                 @JsonProperty("attributes") List<String> attributes,
-                @JsonProperty("hasUploadConfiguration") @JsonDeserialize(using = BooleanStringDeserializer.class) boolean hasUploadConfiguration) {
+                @JsonProperty("hasUploadConfiguration") @JsonDeserialize(using = BooleanStringDeserializer.class) Boolean hasUploadConfiguration) {
             this.ties = ties;
             this.mode = mode;
             this.facts = facts;
             this.dataLoadingColumns = dataLoadingColumns;
             this.attributes = attributes;
-            this.hasUploadConfiguration = hasUploadConfiguration;
+            this.hasUploadConfiguration = Boolean.TRUE.equals(hasUploadConfiguration);
         }
 
         public List<String> getTies() {

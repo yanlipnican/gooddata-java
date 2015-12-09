@@ -36,26 +36,26 @@ public class Entry {
                  @JsonProperty("category") String category,
                  @JsonProperty("author") String author,
                  @JsonProperty("contributor") String contributor,
-                 @JsonProperty("deprecated") @JsonDeserialize(using = BooleanStringDeserializer.class) boolean deprecated,
+                 @JsonProperty("deprecated") @JsonDeserialize(using = BooleanStringDeserializer.class) Boolean deprecated,
                  @JsonProperty("identifier") String identifier,
                  @JsonProperty("tags") String tags,
                  @JsonProperty("created") @JsonDeserialize(using = GDDateTimeDeserializer.class) DateTime created,
                  @JsonProperty("updated") @JsonDeserialize(using = GDDateTimeDeserializer.class) DateTime updated,
-                 @JsonProperty("locked") @JsonDeserialize(using = BooleanIntegerDeserializer.class) boolean locked,
-                 @JsonProperty("unlisted") @JsonDeserialize(using = BooleanIntegerDeserializer.class) boolean unlisted) {
+                 @JsonProperty("locked") @JsonDeserialize(using = BooleanIntegerDeserializer.class) Boolean locked,
+                 @JsonProperty("unlisted") @JsonDeserialize(using = BooleanIntegerDeserializer.class) Boolean unlisted) {
         this.link = link;
         this.title = title;
         this.summary = summary;
         this.category = category;
         this.author = author;
         this.contributor = contributor;
-        this.deprecated = deprecated;
+        this.deprecated = Boolean.TRUE.equals(deprecated);
         this.identifier = identifier;
         this.tags = tags;
         this.created = created;
         this.updated = updated;
-        this.locked = locked;
-        this.unlisted = unlisted;
+        this.locked = Boolean.TRUE.equals(locked);
+        this.unlisted = Boolean.TRUE.equals(unlisted);
     }
 
     public String getLink() {

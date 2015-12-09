@@ -137,12 +137,12 @@ public class DatasetManifest {
         Part(@JsonProperty("mode") String uploadMode,
              @JsonProperty("columnName") String columnName,
              @JsonProperty("populates") List<String> populates,
-             @JsonProperty("referenceKey") @JsonDeserialize(using = BooleanIntegerDeserializer.class) boolean referenceKey,
+             @JsonProperty("referenceKey") @JsonDeserialize(using = BooleanIntegerDeserializer.class) Boolean referenceKey,
              @JsonProperty("constraints") Map<String, String> constraints) {
             this.uploadMode = uploadMode;
             this.columnName = columnName;
             this.populates = populates;
-            this.referenceKey = referenceKey;
+            this.referenceKey = Boolean.TRUE.equals(referenceKey);
             this.constraints = constraints;
         }
 
