@@ -71,7 +71,8 @@ public class GoodDataFactory {
     }
 
     public GoodData fromSst(String sst) {
-        return new GoodData(new GoodDataHttpClient(httpClient, new SimpleSSTRetrievalStrategy(sst)), hostname, port, protocol);
+        return new GoodData(new GoodDataHttpClient(httpClient, new HttpHost(hostname, port, protocol),
+                new SimpleSSTRetrievalStrategy(sst)), hostname, port, protocol);
     }
 
     public GoodData fromLogin(String login, String password) {
