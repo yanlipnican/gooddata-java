@@ -28,6 +28,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
 
 import static com.gooddata.util.Validate.notEmpty;
 import static com.gooddata.util.Validate.notNull;
@@ -35,6 +37,7 @@ import static java.lang.String.format;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
 import static org.springframework.util.StringUtils.isEmpty;
 
 /**
@@ -75,6 +78,20 @@ public class DatasetService extends AbstractService {
         } catch (RestClientException e) {
             throw new DatasetException("Unable to get manifest", datasetId, e);
         }
+    }
+
+    public List<String> getDataFormat(Project project, String datasetId) {
+        return restTemplate.getForObject("/gdc/internal/slihack/projects/{projectId}/datasets/{datasetId}/columns", UploadColumns.class, project.getId(), datasetId).getColumns();
+    }
+
+    public void streamData(Project project, String datasetId, Map<String,String> data) {
+            restTemplate.postForObject("/gdc/internal/slihack/projects/{projectId}/datasets/{datasetId}/data", singletonList(data),
+                    Void.class, project.getId(), datasetId);
+    }
+
+    public void flushData(Project project, String datasetId, boolean incremental) {
+        restTemplate.postForObject("/gdc/internal/slihack/projects/{projectId}/datasets/{datasetId}/flush", new FlushData(incremental),
+                Void.class, project.getId(), datasetId);
     }
 
     /**
