@@ -23,6 +23,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -89,9 +90,33 @@ public class DatasetService extends AbstractService {
                     Void.class, project.getId(), datasetId);
     }
 
-    public void flushData(Project project, String datasetId, boolean incremental) {
-        restTemplate.postForObject("/gdc/internal/slihack/projects/{projectId}/datasets/{datasetId}/flush", new FlushData(incremental),
+    public FutureResult<Void> flushData(Project project, final String datasetId, boolean incremental) {
+        final URI uri = restTemplate.postForLocation("/gdc/internal/slihack/projects/{projectId}/datasets/{datasetId}/flush", new FlushData(incremental),
                 Void.class, project.getId(), datasetId);
+
+        return new PollResult<>(this, new SimplePollHandler<Void>(uri.toString(), Void.class) {
+
+            @Override
+            public boolean isFinished(ClientHttpResponse response) throws IOException {
+                setPollingUri(response.getHeaders().getLocation().toString());
+                if (!getPollingUri().contains("flush")) {
+                    final PullTaskStatus status = extractData(response, PullTaskStatus.class);
+                    final boolean finished = status.isFinished();
+                    if (finished && !status.isSuccess()) {
+                        throw new DatasetException(status.getStatus(), datasetId);
+                    }
+                    return finished;
+                } else {
+                    return false;
+                }
+            }
+
+            @Override
+            public void handlePollException(final GoodDataRestException e) {
+                throw new DatasetException("Unable to load", datasetId, e);
+            }
+
+        });
     }
 
     /**
