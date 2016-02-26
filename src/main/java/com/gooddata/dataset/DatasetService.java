@@ -145,13 +145,15 @@ public class DatasetService extends AbstractService {
      */
     public FutureResult<Void> loadDatasets(final Project project, final Collection<DatasetManifest> datasets) {
         notNull(project, "project");
-        validateUploadManifests(datasets);
+        //validateUploadManifests(datasets);
         final List<String> datasetsNames = new ArrayList<>(datasets.size());
         try {
             final Path dirPath = Paths.get("/", project.getId() + "_" + RandomStringUtils.randomAlphabetic(3), "/");
             for (DatasetManifest datasetManifest : datasets) {
                 datasetsNames.add(datasetManifest.getDataSet());
-                dataStoreService.upload(dirPath.resolve(datasetManifest.getFile()).toString(), datasetManifest.getSource());
+                if (datasetManifest.getFile() != null) {
+                    dataStoreService.upload(dirPath.resolve(datasetManifest.getFile()).toString(), datasetManifest.getSource());
+                }
             }
 
             final String manifestJson = mapper.writeValueAsString(new DatasetManifests(datasets));

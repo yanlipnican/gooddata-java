@@ -38,6 +38,7 @@ public class DatasetManifest {
     private String file;
     private List<Part> parts;
     private InputStream source;
+    private Dsn dsn;
 
     public DatasetManifest(String dataSet) {
         this.dataSet = dataSet;
@@ -78,7 +79,15 @@ public class DatasetManifest {
     }
 
     public void setFile(String file) {
-        this.file = notEmpty(file, "file");
+        this.file = file;// TODO can be null while dsn usednotEmpty(file, "file");
+    }
+
+    public Dsn getDsn() {
+        return dsn;
+    }
+
+    public void setDsn(Dsn dsn) {
+        this.dsn = dsn;
     }
 
     /**
@@ -145,6 +154,13 @@ public class DatasetManifest {
             this.populates = populates;
             this.referenceKey = referenceKey;
             this.constraints = constraints;
+        }
+
+        public Part(String uploadMode, String columnName, List<String> populates, Boolean referenceKey) {
+            this.uploadMode = uploadMode;
+            this.columnName = columnName;
+            this.populates = populates;
+            this.referenceKey = referenceKey;
         }
 
         public String getUploadMode() {
