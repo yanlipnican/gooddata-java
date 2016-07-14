@@ -183,7 +183,7 @@ public class GoodData {
         metadataService = new MetadataService(getRestTemplate());
         modelService = new ModelService(getRestTemplate());
         gdcService = new GdcService(getRestTemplate());
-        dataStoreService = new DataStoreService(getHttpClient(), getRestTemplate(), gdcService, new HttpHost(hostname, port, protocol).toURI());
+        dataStoreService = new DataStoreService(getHttpClient(), getRestTemplate(), gdcService);
         datasetService = new DatasetService(getRestTemplate(), dataStoreService);
         reportService = new ReportService(getRestTemplate());
         processService = new ProcessService(getRestTemplate(), accountService, dataStoreService);

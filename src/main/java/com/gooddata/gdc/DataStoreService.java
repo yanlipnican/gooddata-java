@@ -5,8 +5,7 @@ package com.gooddata.gdc;
 
 import com.github.sardine.Sardine;
 import com.github.sardine.impl.SardineException;
-import com.github.sardine.impl.SardineImpl;
-import com.gooddata.UriPrefixer;
+import com.gooddata.AbstractService;
 import org.apache.commons.lang.Validate;
 import org.apache.http.Header;
 import org.apache.http.HeaderIterator;
@@ -31,6 +30,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.DefaultUriTemplateHandler;
+import org.springframework.web.util.UriTemplateHandler;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,14 +44,12 @@ import static com.gooddata.util.Validate.notNull;
 /**
  * Uploads, downloads, deletes, ... at datastore
  */
-public class DataStoreService {
+public class DataStoreService extends AbstractService {
 
     private final Sardine sardine;
     private final GdcService gdcService;
-    private final URI gdcUri;
-    private final RestTemplate restTemplate;
 
-    private UriPrefixer prefixer;
+    private UriTemplateHandler uriTemplateHandler;
 
 
     /**
@@ -58,23 +57,30 @@ public class DataStoreService {
      * @param httpClient httpClient to make datastore connection
      * @param restTemplate restTemplate to make datastore connection
      * @param gdcService used to obtain datastore URI
-     * @param gdcUri complete GDC URI used to prefix possibly relative datastore path
      */
-    public DataStoreService(HttpClient httpClient, RestTemplate restTemplate, GdcService gdcService, String gdcUri) {
+    public DataStoreService(HttpClient httpClient, RestTemplate restTemplate, GdcService gdcService) {
+        super(restTemplate);
         this.gdcService = notNull(gdcService, "gdcService");
-        this.gdcUri = URI.create(notEmpty(gdcUri, "gdcUri"));
-        this.restTemplate = notNull(restTemplate, "restTemplate");
         sardine = new GdcSardine(new CustomHttpClientBuilder(httpClient));
     }
 
-    private UriPrefixer getPrefixer() {
-        if (prefixer == null) {
-            final String uriString = gdcService.getGdc().getUserStagingLink();
-            final URI uri = URI.create(uriString);
-            prefixer = new UriPrefixer(uri.isAbsolute() ? uri : gdcUri.resolve(uriString));
-            sardine.enablePreemptiveAuthentication(prefixer.getUriPrefix().getHost());
+    private URI getUserStagingUri() {
+        final String uriString = gdcService.getGdc().getUserStagingLink();
+        final URI uri = URI.create(uriString);
+        return uri.isAbsolute() ? uri : expandUri(uriString);
+    }
+
+    private UriTemplateHandler getUriTemplateHandler() {
+        // can't be initialized in constructor because we want to avoid making HTTP requests in constructors
+        if (uriTemplateHandler == null ) {
+            final URI userStagingUri = getUserStagingUri();
+            sardine.enablePreemptiveAuthentication(userStagingUri.getHost());
+            final DefaultUriTemplateHandler defaultUriTemplateHandler = new DefaultUriTemplateHandler();
+            defaultUriTemplateHandler.setBaseUrl(userStagingUri.toString());
+            defaultUriTemplateHandler.setParsePath(true);
+            uriTemplateHandler = defaultUriTemplateHandler;
         }
-        return prefixer;
+        return uriTemplateHandler;
     }
 
     /**
@@ -83,7 +89,7 @@ public class DataStoreService {
      * @return uri for given path
      */
     public URI getUri(String path) {
-        return getPrefixer().mergeUris(path);
+        return getUriTemplateHandler().expand(path);
     }
 
     /**
