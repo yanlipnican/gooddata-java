@@ -13,7 +13,7 @@ class MetricSpec extends Specification {
         def serialized = getClass().getResourceAsStream("/md/metric-out.json")
 
         when:
-        final Metric metric = mapper.readValue(serialized, Metric.class)
+        final Metric metric = mapper.readValue(serialized, Metric)
 
         then:
         metric
@@ -27,7 +27,7 @@ class MetricSpec extends Specification {
 
     void "should deserialize with folder"() {
         when:
-        def metric = mapper.readValue(getClass().getResourceAsStream("/md/metric-folder.json"), Metric.class)
+        def metric = mapper.readValue(getClass().getResourceAsStream("/md/metric-folder.json"), Metric)
 
         then:
         "/gdc/md/ge06jy0jr6h1hzaxei6d53evw276p3xc/obj/51430" in metric?.folders
