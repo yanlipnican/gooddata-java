@@ -1,6 +1,9 @@
 package com.gooddata.md
 
+import com.gooddata.GoodDataRestException
+import com.gooddata.gdc.UriResponse
 import com.gooddata.project.Project
+import org.springframework.web.client.RestClientException
 import org.springframework.web.client.RestTemplate
 import spock.lang.Specification
 import spock.lang.Subject
@@ -36,20 +39,18 @@ class MetadataServiceSpec extends Specification {
         1 * restTemplate.postForObject(_, _, _, _) >> null
     }
 
-//    @Test(expectedExceptions = ObjCreateException.class)
-//    @SuppressWarnings("unchecked")
-//    public void testCreateObjGDRestException() throws Exception {
-//        final Obj obj = mock(Obj.class);
-//        when(restTemplate.postForObject(Obj.URI, obj, UriResponse.class, PROJECT_ID))
-//                .thenThrow(GoodDataRestException.class);
-//        service.createObj(project, obj);
-//    }
-//
-//    @Test(expectedExceptions = ObjCreateException.class)
-//    public void testCreateObjRestClientException() throws Exception {
-//        final Obj obj = mock(Obj.class);
-//        when(restTemplate.postForObject(Obj.URI, obj, UriResponse.class, PROJECT_ID))
-//                .thenThrow(new RestClientException(""));
-//        service.createObj(project, obj);
-//    }
+    void "createObj() should throw"() {
+        given:
+        def obj = Stub(Obj)
+        restTemplate.postForObject(Obj.CREATE_URI, obj, UriResponse, PROJECT_ID) >> { throw ex }
+
+        when:
+        service.createObj(project, obj)
+
+        then:
+        thrown(ObjCreateException)
+
+        where:
+        ex << [new GoodDataRestException(500, 'req', '', '', ''), new RestClientException('')]
+    }
 }
