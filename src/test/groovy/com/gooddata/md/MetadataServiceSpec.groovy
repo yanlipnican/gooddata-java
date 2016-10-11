@@ -2,11 +2,8 @@ package com.gooddata.md
 
 import com.gooddata.project.Project
 import org.springframework.web.client.RestTemplate
-import org.testng.annotations.Test
 import spock.lang.Specification
 import spock.lang.Subject
-
-import static org.mockito.Mockito.mock
 
 class MetadataServiceSpec extends Specification {
 
@@ -34,6 +31,9 @@ class MetadataServiceSpec extends Specification {
 
         then:
         thrown(ObjCreateException)
+
+        and:
+        1 * restTemplate.postForObject(_, _, _, _) >> null
     }
 
 //    @Test(expectedExceptions = ObjCreateException.class)
