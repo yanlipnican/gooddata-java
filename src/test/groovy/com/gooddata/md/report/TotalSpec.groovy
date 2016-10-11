@@ -8,11 +8,17 @@ class TotalSpec extends Specification {
 
     void "of() should throw for unknown"() {
         when:
-        Total.of("unknownValue")
+        Total.of(unknown)
 
         then:
         def e = thrown(UnsupportedOperationException)
-        e.message ==~ /.*"unknownValue".*/
+        e.message ==~ regex
+
+        where:
+        unknown   | regex
+        'unknown' | /.*"unknown".*/
+        ''        | /.*"".*/
+
     }
 
     @Unroll('of("#value") is #total')
