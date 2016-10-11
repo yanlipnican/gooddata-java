@@ -22,9 +22,11 @@ class MetricSpec extends Specification {
         metric
         metric.expression == "SELECT AVG([/gdc/md/PROJECT_ID/obj/EXPR_ID])"
         metric.format == "#,##0"
-        metric.maqlAst.position.line == 2
-        metric.maqlAst.position.column == 1
-        metric.maqlAst.type == 'metric'
+        with(metric.maqlAst) {
+            position.line == 2
+            position.column == 1
+            type == 'metric'
+        }
         // and so on
     }
 
