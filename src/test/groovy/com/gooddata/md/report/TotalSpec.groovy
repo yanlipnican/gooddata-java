@@ -1,6 +1,7 @@
 package com.gooddata.md.report
 
 import spock.lang.Specification
+import spock.lang.Unroll
 
 
 class TotalSpec extends Specification {
@@ -14,6 +15,7 @@ class TotalSpec extends Specification {
         e.message ==~ /.*"unknownValue".*/
     }
 
+    @Unroll('of("#value") is #total')
     void "of should work for all values"() {
         expect:
         total == Total.of(value)
