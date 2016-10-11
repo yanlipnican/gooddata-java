@@ -4,6 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import spock.lang.Shared
 import spock.lang.Specification
 
+import static com.gooddata.JsonMatchers.serializesToJson
+import static spock.util.matcher.HamcrestSupport.that
+
 class MetricSpec extends Specification {
 
     @Shared mapper = new ObjectMapper()
@@ -33,11 +36,11 @@ class MetricSpec extends Specification {
         "/gdc/md/ge06jy0jr6h1hzaxei6d53evw276p3xc/obj/51430" in metric?.folders
     }
 
-//    @Test
-//    public void testSerialization() throws Exception {
-//        final Metric metric = new Metric("Person Name", "SELECT SUM([/gdc/md/PROJECT_ID/obj/EXPR_ID])", "FORMAT");
-//        assertThat(metric, serializesToJson("/md/metric-new.json"));
-//    }
+    void "can be serialized"() {
+        expect:
+        that new Metric("Person Name", "SELECT SUM([/gdc/md/PROJECT_ID/obj/EXPR_ID])", "FORMAT"),
+                serializesToJson("/md/metric-new.json")
+    }
 //
 //    @Test
 //    public void fullJsonShouldStayTheSameAfterDeserializationAndSerializationBack() throws Exception {
