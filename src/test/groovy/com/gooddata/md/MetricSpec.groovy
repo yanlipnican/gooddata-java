@@ -26,9 +26,11 @@ class MetricSpec extends Specification {
     }
 
     void "should deserialize with folder"() {
-        expect:
-        mapper.readValue(getClass().getResourceAsStream("/md/metric-folder.json"), Metric.class)
-//        assertThat(metric.getFolders(), contains("/gdc/md/ge06jy0jr6h1hzaxei6d53evw276p3xc/obj/51430"));
+        when:
+        def metric = mapper.readValue(getClass().getResourceAsStream("/md/metric-folder.json"), Metric.class)
+
+        then:
+        "/gdc/md/ge06jy0jr6h1hzaxei6d53evw276p3xc/obj/51430" in metric?.folders
     }
 
 //    @Test
