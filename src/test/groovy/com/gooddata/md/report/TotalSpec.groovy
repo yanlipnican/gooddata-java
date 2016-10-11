@@ -12,14 +12,15 @@ class TotalSpec extends Specification {
         then:
         def e = thrown(UnsupportedOperationException)
         e.message ==~ /.*"unknownValue".*/
-
     }
-//
-//    @Test
-//    public void testOf() throws Exception {
-//        for (Total total : Total.values()) {
-//            assertThat(Total.of(total.toString()), is(total));
-//        }
-//    }
+
+    void "of should work for all values"() {
+        expect:
+        total == Total.of(value)
+
+        where:
+        value << Total.values()*.toString()
+        total << Total.values()
+    }
 
 }
