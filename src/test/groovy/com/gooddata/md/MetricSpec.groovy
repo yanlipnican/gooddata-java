@@ -1,13 +1,15 @@
 package com.gooddata.md
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import spock.lang.Shared
 import spock.lang.Specification
 
 class MetricSpec extends Specification {
 
+    @Shared mapper = new ObjectMapper()
+
     void "can be deserialized"() {
         given:
-        def mapper = new ObjectMapper()
         def serialized = getClass().getResourceAsStream("/md/metric-out.json")
 
         when:
@@ -25,7 +27,7 @@ class MetricSpec extends Specification {
 
     void "should deserialize with folder"() {
         expect:
-        new ObjectMapper().readValue(getClass().getResourceAsStream("/md/metric-folder.json"), Metric.class)
+        mapper.readValue(getClass().getResourceAsStream("/md/metric-folder.json"), Metric.class)
 //        assertThat(metric.getFolders(), contains("/gdc/md/ge06jy0jr6h1hzaxei6d53evw276p3xc/obj/51430"));
     }
 
