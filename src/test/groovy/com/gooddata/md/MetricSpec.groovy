@@ -23,13 +23,12 @@ class MetricSpec extends Specification {
         // and so on
     }
 
-//    @Test
-//    public void shouldDeserializeFolder() throws Exception {
-//        final Metric metric = new ObjectMapper()
-//                .readValue(getClass().getResourceAsStream("/md/metric-folder.json"), Metric.class);
+    void "should deserialize with folder"() {
+        expect:
+        new ObjectMapper().readValue(getClass().getResourceAsStream("/md/metric-folder.json"), Metric.class)
 //        assertThat(metric.getFolders(), contains("/gdc/md/ge06jy0jr6h1hzaxei6d53evw276p3xc/obj/51430"));
-//    }
-//
+    }
+
 //    @Test
 //    public void testSerialization() throws Exception {
 //        final Metric metric = new Metric("Person Name", "SELECT SUM([/gdc/md/PROJECT_ID/obj/EXPR_ID])", "FORMAT");
