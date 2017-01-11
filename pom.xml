@@ -1,0 +1,66 @@
+	<?xml version="1.0" encoding="UTF-8"?>
+	<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+		<modelVersion>4.0.0</modelVersion>
+
+		<groupId>cz.geek</groupId>
+		<artifactId>gooddata-java</artifactId>
+		<version>1.0.0</version>
+		<name>${project.artifactId}</name>
+		<description>GoodData Java SDK</description>
+		<packaging>pom</packaging>
+
+		<parent>
+			<groupId>org.sonatype.oss</groupId>
+			<artifactId>oss-parent</artifactId>
+			<version>7</version>
+		</parent>
+
+		<licenses>
+			<license>
+				<name>BSD License</name>
+				<url>http://opensource.org/licenses/BSD-3-Clause</url>
+			</license>
+		</licenses>
+		<scm>
+			<url>git@github.com:martiner/java.git</url>
+			<connection>scm:git:git@github.com:martiner/java.git</connection>
+			<developerConnection>scm:git:${basedir}</developerConnection>
+		</scm>
+		<developers>
+			<developer>
+				<name>Martin Caslavsky</name>
+			</developer>
+			<developer>
+				<name>Libor Rysavy</name>
+			</developer>
+			<developer>
+				<name>Jiri Mikulasek</name>
+			</developer>
+		</developers>
+
+		<distributionManagement>
+			<relocation>
+				<groupId>com.gooddata</groupId>
+			</relocation>
+		</distributionManagement>
+
+		<build>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-gpg-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>sign-artifacts</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>sign</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</build>
+
+	</project>
