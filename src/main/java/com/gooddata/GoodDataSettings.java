@@ -5,8 +5,6 @@
  */
 package com.gooddata;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.util.concurrent.TimeUnit;
 
 import static org.springframework.util.Assert.isTrue;

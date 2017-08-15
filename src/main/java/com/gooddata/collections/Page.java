@@ -5,7 +5,6 @@
  */
 package com.gooddata.collections;
 
-import org.springframework.web.client.RestOperations;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
@@ -32,7 +31,7 @@ public interface Page {
      * As {@link #getPageUri(UriComponentsBuilder)} returns expanded page URI it is not very useful for cases that
      * require use of URI template with URI variables. This method allows you to use URI templates and benefit
      * from pagination support implemented in {@link Page} implementations. It is especially useful if you need to handle
-     * multiple requests of the same URI template in the same way - e.g. monitor request made by {@link RestOperations}
+     * multiple requests of the same URI template in the same way - e.g. monitor request made by {@link org.springframework.web.client.RestOperations}
      * methods.
      * <p>
      * Use this in the situation when you have URI template with placeholders and URI variables separately.
@@ -43,7 +42,7 @@ public interface Page {
      *
      * @param uriBuilder URI builder used for constructing page URI
      * @return provided and updated builder instance
-     * @see RestOperations
+     * @see org.springframework.web.client.RestOperations
      */
     UriComponentsBuilder updateWithPageParams(final UriComponentsBuilder uriBuilder);
 }
