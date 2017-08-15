@@ -10,8 +10,8 @@ import org.apache.commons.lang3.builder.RecursiveToStringStyle;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 /**
- * GoodDataToStringBuilder enables to create string representation based on fields of an object and exclude specified fields.
- * links field is excluded by default.
+ * GoodDataToStringBuilder enables to create string representation based on fields of an object and exclude specified
+ * fields. The {@code links} field is excluded by default.
  */
 public class GoodDataToStringBuilder extends ReflectionToStringBuilder {
 
@@ -31,7 +31,8 @@ public class GoodDataToStringBuilder extends ReflectionToStringBuilder {
      * @return String representation, which excludes links field by default
      */
     public static String defaultToString(Object object, String... excludeFieldNames) {
-        return new GoodDataToStringBuilder(object).setExcludeFieldNames(ArrayUtils.add(excludeFieldNames, LINKS_FIELD_NAME))
-                                                  .toString();
+        return new GoodDataToStringBuilder(object)
+                .setExcludeFieldNames(ArrayUtils.add(excludeFieldNames, LINKS_FIELD_NAME))
+                .toString();
     }
 }

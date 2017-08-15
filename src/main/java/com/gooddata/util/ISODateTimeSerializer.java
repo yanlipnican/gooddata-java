@@ -16,7 +16,8 @@ import org.joda.time.format.ISODateTimeFormat;
 import java.io.IOException;
 
 /**
- * Serializes Joda's {@link DateTime} fields to the ISO date time format in the UTC timezone (yyyy-MM-dd'T'HH:mm:ss.SSSZZ).
+ * Serializes Joda's {@link DateTime} fields to the ISO date time format in the UTC timezone
+ * (yyyy-MM-dd'T'HH:mm:ss.SSSZZ).
  */
 public class ISODateTimeSerializer extends JsonSerializer<DateTime> {
 

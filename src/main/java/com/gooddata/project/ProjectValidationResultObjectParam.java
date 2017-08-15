@@ -23,7 +23,8 @@ public class ProjectValidationResultObjectParam extends ProjectValidationResultP
     }
 
     @JsonCreator
-    private static ProjectValidationResultObjectParam create(@JsonProperty("name") String name, @JsonProperty("uri") String uri) {
+    private static ProjectValidationResultObjectParam create(@JsonProperty("name") String name,
+                                                             @JsonProperty("uri") String uri) {
         return new ProjectValidationResultObjectParam(name, uri);
     }
 

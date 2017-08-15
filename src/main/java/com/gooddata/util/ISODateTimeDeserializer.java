@@ -16,7 +16,8 @@ import org.joda.time.DateTime;
 import static com.gooddata.util.ISODateTimeSerializer.FORMATTER;
 
 /**
- * Deserializes Joda's {@link DateTime} fields from the ISO date time format in the UTC timezone (yyyy-MM-dd'T'HH:mm:ss.SSSZZ).
+ * Deserializes Joda's {@link DateTime} fields from the ISO date time format in the UTC timezone
+ * (yyyy-MM-dd'T'HH:mm:ss.SSSZZ).
  */
 public class ISODateTimeDeserializer extends JsonDeserializer<DateTime> {
 
