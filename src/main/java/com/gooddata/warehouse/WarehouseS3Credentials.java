@@ -143,7 +143,7 @@ public class WarehouseS3Credentials {
      * @param links links to add
      * @return S3 credentials with links
      */
-    public WarehouseS3Credentials withLinks(final Map<String, String> links) {
+    WarehouseS3Credentials withLinks(final Map<String, String> links) {
         return new WarehouseS3Credentials(region, accessKey, secretKey, updatedBy, updated, links);
     }
 
@@ -153,7 +153,7 @@ public class WarehouseS3Credentials {
      * @param warehouseId warehouse id to use in links
      * @return S3 credentials with links based on specified warehouse
      */
-    public WarehouseS3Credentials withLinks(final String warehouseId) {
+    WarehouseS3Credentials withLinks(final String warehouseId) {
         final Map<String, String> links = new HashMap<>();
         links.put(INSTANCE_LINK, Warehouse.TEMPLATE.expand(warehouseId).toString());
         links.put(LIST_LINK, WarehouseS3CredentialsList.TEMPLATE.expand(warehouseId).toString());

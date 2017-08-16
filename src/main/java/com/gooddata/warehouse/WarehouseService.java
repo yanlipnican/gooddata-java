@@ -504,9 +504,8 @@ public class WarehouseService extends AbstractService {
         notEmpty(warehouse.getId(), "warehouse.id");
         notNull(s3Credentials, "s3Credentials");
 
-        final WarehouseS3Credentials s3CredentialsWithLinks = s3Credentials.withLinks(warehouse.getId());
-        final WarehouseTask task = createWarehouseTask(s3CredentialsWithLinks.getListUri(), s3CredentialsWithLinks, HttpMethod.POST);
-        return new PollResult<>(this, createS3PollHandler(s3CredentialsWithLinks, task, "add"));
+        final WarehouseTask task = createWarehouseTask(WarehouseS3CredentialsList.URI, s3Credentials, HttpMethod.POST, warehouse.getId());
+        return new PollResult<>(this, createS3PollHandler(s3Credentials, task, "add"));
     }
 
     /**
@@ -539,10 +538,11 @@ public class WarehouseService extends AbstractService {
 
     private WarehouseTask createWarehouseTask(final String targetUri,
                                               final WarehouseS3Credentials s3Credentials,
-                                              final HttpMethod httpMethod) {
+                                              final HttpMethod httpMethod,
+                                              final Object... args) {
         final HttpEntity<WarehouseTask> taskHttpEntity;
         try {
-            taskHttpEntity = restTemplate.exchange(targetUri, httpMethod, new HttpEntity<>(s3Credentials), WarehouseTask.class);
+            taskHttpEntity = restTemplate.exchange(targetUri, httpMethod, new HttpEntity<>(s3Credentials), WarehouseTask.class, args);
         } catch (GoodDataException | RestClientException e) {
             throw new GoodDataException(format("Unable to %s S3 credentials %s", httpMethod.name(), s3Credentials.getUri()), e);
         }
