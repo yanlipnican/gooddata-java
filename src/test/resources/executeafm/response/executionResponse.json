@@ -1,0 +1,52 @@
+{
+  "executionResponse": {
+    "links": {
+      "uri": "poll"
+    },
+    "dimensions": [
+      {
+        "name": "x",
+        "headers": [
+          {
+            "attributeHeader": {
+              "uri": "/gdc/md/FoodMartDemo/obj/124",
+              "identifier": "attr.account",
+              "name": "Account",
+              "localIdentifier": "account"
+            }
+          },
+          {
+            "attributeHeader": {
+              "uri": "/gdc/md/FoodMartDemo/obj/113",
+              "identifier": "attr.accountType",
+              "name": "Account Type",
+              "localIdentifier": "accountType"
+            }
+          },
+          {
+            "measureGroupHeader": {
+              "items": [
+                {
+                  "measureHeaderItem": {
+                    "uri": "0",
+                    "localIdentifier": "sum",
+                    "name": "Accounting Amount [Sum]",
+                    "format": "foo"
+                  }
+                },
+                {
+                  "measureHeaderItem": {
+                    "uri": "0",
+                    "localIdentifier": "avg",
+                    "name": "Accounting Amount [Avg]",
+                    "format": "foo"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
