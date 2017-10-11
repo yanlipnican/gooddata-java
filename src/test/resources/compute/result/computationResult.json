@@ -1,0 +1,88 @@
+{
+  "computationResult": {
+    "dimensions": [
+      {
+        "name": "x",
+        "headers": [
+          {
+            "attributeHeader": {
+              "uri": "/gdc/md/FoodMartDemo/obj/124",
+              "name": "Account",
+              "items": [
+                {
+                  "attributeHeaderItem": {
+                    "uri": "/gdc/md/FoodMartDemo/obj/124/elements?id=3200",
+                    "name": "Cost of Goods Sold",
+                    "identifier": "element"
+                  }
+                },
+                {
+                  "attributeHeaderItem": {
+                    "uri": "/gdc/md/FoodMartDemo/obj/124/elements?id=6000",
+                    "name": "Salaries",
+                    "identifier": "element"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "attributeHeader": {
+              "uri": "/gdc/md/FoodMartDemo/obj/113",
+              "name": "Account Type",
+              "items": [
+                {
+                  "attributeHeaderItem": {
+                    "uri": "/gdc/md/FoodMartDemo/obj/113/elements?id=14",
+                    "name": "Income",
+                    "identifier": "element"
+                  }
+                },
+                {
+                  "attributeHeaderItem": {
+                    "uri": "/gdc/md/FoodMartDemo/obj/113/elements?id=15",
+                    "name": "Expense",
+                    "identifier": "element"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "measureGroupHeader": {
+              "items": [
+                {
+                  "measureHeaderItem": {
+                    "uri": "0",
+                    "name": "Accounting Amount [Sum]"
+                  }
+                },
+                {
+                  "measureHeaderItem": {
+                    "uri": "0",
+                    "name": "Accounting Amount [Sum]"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "data": [
+      "-12958511.8099999",
+      "25315434.8199999",
+      "-2748323.76",
+      "-7252542.67"
+    ],
+    "size": [
+      4
+    ],
+    "offset": [
+      0
+    ],
+    "overallSize": [
+      4
+    ]
+  }
+}

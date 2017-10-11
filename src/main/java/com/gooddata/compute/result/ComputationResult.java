@@ -1,0 +1,100 @@
+/*
+ * Copyright (C) 2007-2017, GoodData(R) Corporation. All rights reserved.
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+package com.gooddata.compute.result;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.gooddata.util.GoodDataToStringBuilder;
+
+import java.util.List;
+
+import static java.util.Arrays.asList;
+import static org.apache.commons.lang3.ArrayUtils.toObject;
+
+@JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NAME)
+@JsonTypeName("computationResult")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class ComputationResult {
+    private List<ResultDimension> dimensions;
+    private Object data;
+    private List<Integer> size;
+    private List<Integer> offset;
+    private List<Integer> overallSize;
+
+    public ComputationResult() {
+    }
+
+    public ComputationResult(final List<ResultDimension> dimensions, final Object data, final List<Integer> size,
+                             final List<Integer> offset, final List<Integer> overallSize) {
+        this.dimensions = dimensions;
+        this.data = data;
+        this.size = size;
+        this.offset = offset;
+        this.overallSize = overallSize;
+    }
+
+    public List<ResultDimension> getDimensions() {
+        return dimensions;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
+    public List<Integer> getSize() {
+        return size;
+    }
+
+    public List<Integer> getOffset() {
+        return offset;
+    }
+
+    public List<Integer> getOverallSize() {
+        return overallSize;
+    }
+
+    public void setDimensions(final List<ResultDimension> dimensions) {
+        this.dimensions = dimensions;
+    }
+
+    public void setData(final Object data) {
+        this.data = data;
+    }
+
+    public void setSize(final List<Integer> size) {
+        this.size = size;
+    }
+
+    public void setOffset(final List<Integer> offset) {
+        this.offset = offset;
+    }
+
+    public void setOverallSize(final List<Integer> overallSize) {
+        this.overallSize = overallSize;
+    }
+
+    public void dimensions(final ResultDimension... dimensions) {
+        this.dimensions = asList(dimensions);
+    }
+
+    public void size(final int... size) {
+        this.size = asList(toObject(size));
+    }
+
+    public void overallSize(final int... overallSize) {
+        this.overallSize = asList(toObject(overallSize));
+    }
+
+    public void offset(final int... offset) {
+        this.offset = asList(toObject(offset));
+    }
+
+    public String toString() {
+        return GoodDataToStringBuilder.defaultToString(this);
+    }
+
+}
