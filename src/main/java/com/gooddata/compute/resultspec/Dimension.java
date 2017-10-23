@@ -32,26 +32,26 @@ public class Dimension {
      */
     public static final String MEASURE_GROUP = "measureGroup";
 
-    private final String identifier;
+    private final String name;
     private final List<String> itemIdentifiers;
     private Set<TotalItem> totals;
 
     @JsonCreator
     public Dimension(
-            @JsonProperty("identifier") final String identifier,
+            @JsonProperty("name") final String name,
             @JsonProperty("itemIdentifiers") final List<String> itemIdentifiers,
             @JsonProperty("totals") final Set<TotalItem> totals) {
-        this.identifier = notEmpty(identifier, "identifier");
+        this.name = notEmpty(name, "name");
         this.itemIdentifiers = itemIdentifiers;
         this.totals = totals;
     }
 
-    public Dimension(final String identifier, final String... itemIdentifiers) {
-        this(identifier, asList(itemIdentifiers), null);
+    public Dimension(final String name, final String... itemIdentifiers) {
+        this(name, asList(itemIdentifiers), null);
     }
 
-    public String getIdentifier() {
-        return identifier;
+    public String getName() {
+        return name;
     }
 
     public List<String> getItemIdentifiers() {

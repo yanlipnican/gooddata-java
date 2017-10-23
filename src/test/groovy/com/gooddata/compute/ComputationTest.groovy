@@ -44,13 +44,13 @@ class ComputationTest extends Specification {
                         [new NativeTotalItem('mId', 'a1', 'a2')]
                 ),
                 new ResultSpec(
-                        [new MeasureDescription("mId")],
-                        [new Dimension("dId", ["i1"], [new TotalItem("mId", Total.AVG, "a1")] as Set)],
+                        [new MeasureDescription('mId')],
+                        [new Dimension('dName', ['i1'], [new TotalItem('mId', Total.AVG, 'a1')] as Set)],
                         [
-                                new AttributeSortItem(Direction.ASC, "aId"),
+                                new AttributeSortItem(Direction.ASC, 'aId'),
                                 new MeasureSortItem(Direction.ASC,
-                                        new MeasureLocatorItem("mId"),
-                                        new AttributeLocatorItem("aId", "a1"))
+                                        new MeasureLocatorItem('mId'),
+                                        new AttributeLocatorItem('aId', 'a1'))
                         ]
                 )
         ),

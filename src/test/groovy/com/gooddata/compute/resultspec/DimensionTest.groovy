@@ -20,13 +20,13 @@ class DimensionTest extends Specification {
 
     def "should serialize"() {
         expect:
-        that new Dimension("dId", "i1", "i2"),
+        that new Dimension('dName', 'i1', 'i2'),
                 jsonEquals(resource('compute/resultspec/dimension.json'))
     }
 
     def "should serialize full"() {
         expect:
-        that new Dimension("dId", "i1", "i2")
+        that new Dimension('dName', 'i1', 'i2')
                 .addTotal(TOTAL),
                     jsonEquals(resource('compute/resultspec/dimensionFull.json'))
     }
@@ -36,8 +36,8 @@ class DimensionTest extends Specification {
         Dimension dimension = readObjectFromResource('/compute/resultspec/dimension.json', Dimension)
 
         then:
-        dimension.identifier == "dId"
-        dimension.itemIdentifiers == ["i1", "i2"]
+        dimension.name == 'dName'
+        dimension.itemIdentifiers == ['i1', 'i2']
         dimension.totals == null
     }
 
@@ -46,8 +46,8 @@ class DimensionTest extends Specification {
         Dimension dimension = readObjectFromResource('/compute/resultspec/dimensionFull.json', Dimension)
 
         then:
-        dimension.identifier == "dId"
-        dimension.itemIdentifiers == ["i1", "i2"]
+        dimension.name == 'dName'
+        dimension.itemIdentifiers == ['i1', 'i2']
         dimension.totals.size() == 1
         dimension.totals.first() == TOTAL
         dimension.toString()

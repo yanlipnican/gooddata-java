@@ -17,13 +17,13 @@ class ResultSpecTest extends Specification {
     def "should serialize full"() {
         expect:
         that new ResultSpec(
-                [new MeasureDescription("mId")],
-                [new Dimension("dId", "i1")],
+                [new MeasureDescription('mId')],
+                [new Dimension('dName', 'i1')],
                 [
-                        new AttributeSortItem(Direction.ASC, "aId"),
+                        new AttributeSortItem(Direction.ASC, 'aId'),
                         new MeasureSortItem(Direction.ASC,
-                                new MeasureLocatorItem("mId"),
-                                new AttributeLocatorItem("aId", "a1"))
+                                new MeasureLocatorItem('mId'),
+                                new AttributeLocatorItem('aId', 'a1'))
                 ]
         ),
                 jsonEquals(resource('compute/resultspec/resultSpec.json'))
@@ -54,7 +54,7 @@ class ResultSpecTest extends Specification {
         with(resultSpec) {
             measures[0].measureIdentifier == 'mId'
 
-            dimensions[0].identifier == 'dId'
+            dimensions[0].name == 'dName'
             dimensions[0].itemIdentifiers == ['i1']
         }
 
@@ -78,13 +78,13 @@ class ResultSpecTest extends Specification {
     def "should add items"() {
         when:
         def resultSpec = new ResultSpec()
-            .addDimension(new Dimension('dId'))
+            .addDimension(new Dimension('dName'))
             .addMeasure(new MeasureDescription('mId'))
             .addSort(new MeasureSortItem(Direction.ASC))
 
         then:
         with(resultSpec) {
-            dimensions.first().identifier == 'dId'
+            dimensions.first().name == 'dName'
             measures.first().measureIdentifier == 'mId'
             sorts.size() == 1
         }

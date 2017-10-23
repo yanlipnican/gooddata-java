@@ -44,7 +44,7 @@
       ],
       "dimensions": [
         {
-          "identifier": "dId",
+          "name": "dName",
           "itemIdentifiers": [
             "i1"
           ],
