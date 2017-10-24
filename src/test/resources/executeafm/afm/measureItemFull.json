@@ -7,5 +7,6 @@
     }
   },
   "localIdentifier": "lId",
-  "alias": "alias"
+  "alias": "alias",
+  "format": "format"
 }

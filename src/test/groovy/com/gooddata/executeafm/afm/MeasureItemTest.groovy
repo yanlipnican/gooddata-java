@@ -5,7 +5,6 @@
  */
 package com.gooddata.executeafm.afm
 
-import com.gooddata.executeafm.ObjIdentifierQualifier
 import com.gooddata.executeafm.ObjUriQualifier
 import spock.lang.Specification
 
@@ -23,13 +22,13 @@ class MeasureItemTest extends Specification {
 
     def "should serialize full"() {
         expect:
-        that new MeasureItem(new SimpleMeasureDefinition(QUALIFIER), "lId", "alias"),
+        that new MeasureItem(new SimpleMeasureDefinition(QUALIFIER), 'lId', 'alias', 'format'),
                 jsonEquals(resource(MEASURE_ITEM_FULL_JSON))
     }
 
     def "should serialize"() {
         expect:
-        that new MeasureItem(new SimpleMeasureDefinition(QUALIFIER)),
+        that new MeasureItem(new SimpleMeasureDefinition(QUALIFIER), 'lId'),
                 jsonEquals(resource(MEASURE_ITEM_JSON))
     }
 
@@ -54,18 +53,19 @@ class MeasureItemTest extends Specification {
         }
         measureItem.localIdentifier == 'lId'
         measureItem.alias == 'alias'
+        measureItem.format == 'format'
         !measureItem.isAdHoc()
     }
 
     def "should set properties"() {
         when:
-        def measureItem = new MeasureItem(new SimpleMeasureDefinition(new ObjIdentifierQualifier("id")))
-        measureItem.setAlias("alias")
-        measureItem.setLocalIdentifier("lId")
+        def measureItem = new MeasureItem(new SimpleMeasureDefinition(QUALIFIER), 'lId')
+        measureItem.setAlias('alias')
+        measureItem.setFormat('format')
 
         then:
-        measureItem.localIdentifier == 'lId'
         measureItem.alias == 'alias'
+        measureItem.format == 'format'
         measureItem.toString()
     }
 }

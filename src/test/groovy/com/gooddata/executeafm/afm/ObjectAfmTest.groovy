@@ -27,7 +27,7 @@ class ObjectAfmTest extends Specification {
         that new ObjectAfm(
                 [new AttributeItem(QUALIFIER, 'a1')],
                 [new ExpressionFilter('some expression')],
-                [new MeasureItem(new SimpleMeasureDefinition(QUALIFIER))],
+                [new MeasureItem(new SimpleMeasureDefinition(QUALIFIER), 'mId')],
                 [new NativeTotalItem('mId', 'a1', 'a2')]
         ),
                 jsonEquals(resource(OBJECT_AFM_JSON))
@@ -89,7 +89,7 @@ class ObjectAfmTest extends Specification {
         def afm = new ObjectAfm()
         afm.addFilter(Spy(CompatibilityFilter))
         afm.addAttribute(new AttributeItem(new ObjIdentifierQualifier('id'), 'localIdA'))
-        afm.addMeasure(new MeasureItem(Spy(MeasureDefinition)))
+        afm.addMeasure(new MeasureItem(Spy(MeasureDefinition), 'mId'))
         afm.addNativeTotal(new NativeTotalItem('mId'))
 
         then:

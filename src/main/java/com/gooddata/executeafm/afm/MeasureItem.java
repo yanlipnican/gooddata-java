@@ -18,12 +18,9 @@ import com.gooddata.util.GoodDataToStringBuilder;
 public class MeasureItem implements LocallyIdentifiable {
 
     private final MeasureDefinition definition;
-    private String localIdentifier;
+    private final String localIdentifier;
     private String alias;
-
-    public MeasureItem(final MeasureDefinition definition) {
-        this.definition = definition;
-    }
+    private String format;
 
     public MeasureItem(final MeasureDefinition definition, final String localIdentifier) {
         this.definition = definition;
@@ -33,10 +30,12 @@ public class MeasureItem implements LocallyIdentifiable {
     @JsonCreator
     public MeasureItem(@JsonProperty("definition") final MeasureDefinition definition,
                        @JsonProperty("localIdentifier") final String localIdentifier,
-                       @JsonProperty("alias") final String alias) {
+                       @JsonProperty("alias") final String alias,
+                       @JsonProperty("format") final String format) {
         this.definition = definition;
         this.localIdentifier = localIdentifier;
         this.alias = alias;
+        this.format = format;
     }
 
     public MeasureDefinition getDefinition() {
@@ -47,16 +46,20 @@ public class MeasureItem implements LocallyIdentifiable {
         return localIdentifier;
     }
 
-    public void setLocalIdentifier(final String localIdentifier) {
-        this.localIdentifier = localIdentifier;
-    }
-
     public String getAlias() {
         return alias;
     }
 
     public void setAlias(final String alias) {
         this.alias = alias;
+    }
+
+    public String getFormat() {
+        return format;
+    }
+
+    public void setFormat(String format) {
+        this.format = format;
     }
 
     @Override

@@ -27,7 +27,7 @@ class ExecutionTest extends Specification {
                 new ObjectAfm(
                         [new AttributeItem(QUALIFIER, 'a1')],
                         [new ExpressionFilter('some expression')],
-                        [new MeasureItem(new SimpleMeasureDefinition(QUALIFIER))],
+                        [new MeasureItem(new SimpleMeasureDefinition(QUALIFIER), 'm1')],
                         [new NativeTotalItem('mId', 'a1', 'a2')]
                 )
         ),
@@ -40,7 +40,7 @@ class ExecutionTest extends Specification {
                 new ObjectAfm(
                         [new AttributeItem(QUALIFIER, 'a1')],
                         [new ExpressionFilter('some expression')],
-                        [new MeasureItem(new SimpleMeasureDefinition(QUALIFIER))],
+                        [new MeasureItem(new SimpleMeasureDefinition(QUALIFIER), 'm1')],
                         [new NativeTotalItem('mId', 'a1', 'a2')]
                 ),
                 new ResultSpec(
