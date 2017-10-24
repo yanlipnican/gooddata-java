@@ -20,7 +20,6 @@ class ResultSpecTest extends Specification {
     def "should serialize full"() {
         expect:
         that new ResultSpec(
-                [new MeasureDescription('mId')],
                 [new Dimension('dName', 'i1')],
                 [
                         new AttributeSortItem(Direction.ASC, 'aId'),
@@ -43,7 +42,6 @@ class ResultSpecTest extends Specification {
         ResultSpec resultSpec = readObjectFromResource("/$EMPTY_JSON", ResultSpec)
 
         then:
-        resultSpec.measures == null
         resultSpec.dimensions == null
         resultSpec.sorts == null
         resultSpec.toString()
@@ -55,8 +53,6 @@ class ResultSpecTest extends Specification {
 
         then:
         with(resultSpec) {
-            measures[0].measureIdentifier == 'mId'
-
             dimensions[0].name == 'dName'
             dimensions[0].itemIdentifiers == ['i1']
         }
@@ -82,13 +78,11 @@ class ResultSpecTest extends Specification {
         when:
         def resultSpec = new ResultSpec()
             .addDimension(new Dimension('dName'))
-            .addMeasure(new MeasureDescription('mId'))
             .addSort(new MeasureSortItem(Direction.ASC))
 
         then:
         with(resultSpec) {
             dimensions.first().name == 'dName'
-            measures.first().measureIdentifier == 'mId'
             sorts.size() == 1
         }
     }

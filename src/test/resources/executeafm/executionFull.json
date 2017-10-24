@@ -37,11 +37,6 @@
       ]
     },
     "resultSpec": {
-      "measures": [
-        {
-          "measureIdentifier": "mId"
-        }
-      ],
       "dimensions": [
         {
           "name": "dName",

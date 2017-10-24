@@ -21,25 +21,18 @@ import static com.gooddata.util.Validate.notNull;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResultSpec {
-    private List<MeasureDescription> measures;
     private List<Dimension> dimensions;
     private List<SortItem> sorts;
 
     @JsonCreator
     public ResultSpec(
-            @JsonProperty("measures") final List<MeasureDescription> measures,
             @JsonProperty("dimensions") final List<Dimension> dimensions,
             @JsonProperty("sorts") final List<SortItem> sorts) {
-        this.measures = measures;
         this.dimensions = dimensions;
         this.sorts = sorts;
     }
 
     public ResultSpec() {
-    }
-
-    public List<MeasureDescription> getMeasures() {
-        return measures;
     }
 
     public List<Dimension> getDimensions() {
@@ -50,24 +43,12 @@ public class ResultSpec {
         return sorts;
     }
 
-    public void setMeasures(final List<MeasureDescription> measures) {
-        this.measures = measures;
-    }
-
     public void setDimensions(final List<Dimension> dimensions) {
         this.dimensions = dimensions;
     }
 
     public void setSorts(final List<SortItem> sorts) {
         this.sorts = sorts;
-    }
-
-    public ResultSpec addMeasure(final MeasureDescription measure) {
-        if (measures == null) {
-            setMeasures(new ArrayList<>());
-        }
-        measures.add(notNull(measure, "measure"));
-        return this;
     }
 
     public ResultSpec addDimension(final Dimension dimension) {

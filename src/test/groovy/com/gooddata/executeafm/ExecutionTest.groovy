@@ -44,7 +44,6 @@ class ExecutionTest extends Specification {
                         [new NativeTotalItem('mId', 'a1', 'a2')]
                 ),
                 new ResultSpec(
-                        [new MeasureDescription('mId')],
                         [new Dimension('dName', ['i1'], [new TotalItem('mId', Total.AVG, 'a1')] as Set)],
                         [
                                 new AttributeSortItem(Direction.ASC, 'aId'),
