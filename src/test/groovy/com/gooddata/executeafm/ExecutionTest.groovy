@@ -18,8 +18,8 @@ import static spock.util.matcher.HamcrestSupport.that
 class ExecutionTest extends Specification {
 
     private static final ObjUriQualifier QUALIFIER = new ObjUriQualifier('/gdc/md/projectId/obj/1')
-    private static final String COMPUTATION_JSON = 'executeafm/computation.json'
-    private static final String COMPUTATION_FULL_JSON = 'executeafm/computationFull.json'
+    private static final String EXECUTION_JSON = 'executeafm/execution.json'
+    private static final String EXECUTION_FULL_JSON = 'executeafm/executionFull.json'
 
     def "should serialize"() {
         expect:
@@ -31,7 +31,7 @@ class ExecutionTest extends Specification {
                         [new NativeTotalItem('mId', 'a1', 'a2')]
                 )
         ),
-                jsonEquals(resource(COMPUTATION_JSON))
+                jsonEquals(resource(EXECUTION_JSON))
     }
 
     def "should serialize full"() {
@@ -54,12 +54,12 @@ class ExecutionTest extends Specification {
                         ]
                 )
         ),
-                jsonEquals(resource(COMPUTATION_FULL_JSON))
+                jsonEquals(resource(EXECUTION_FULL_JSON))
     }
 
     def "should deserialize"() {
         when:
-        Execution computation = readObjectFromResource("/$COMPUTATION_JSON", Execution)
+        Execution computation = readObjectFromResource("/$EXECUTION_JSON", Execution)
 
         then:
         computation.afm != null
@@ -69,7 +69,7 @@ class ExecutionTest extends Specification {
 
     def "should deserialize full"() {
         when:
-        Execution computation = readObjectFromResource("/$COMPUTATION_FULL_JSON", Execution)
+        Execution computation = readObjectFromResource("/$EXECUTION_FULL_JSON", Execution)
 
         then:
         computation.afm != null
