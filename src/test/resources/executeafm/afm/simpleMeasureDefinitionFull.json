@@ -4,7 +4,7 @@
       "uri": "/gdc/md/projectId/obj/1"
     },
     "aggregation": "avg",
-    "showInPercent": true,
+    "computeRatio": true,
     "filters": [
       {
         "positiveAttributeFilter": {

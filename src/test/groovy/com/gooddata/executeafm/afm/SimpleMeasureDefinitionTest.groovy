@@ -53,7 +53,7 @@ class SimpleMeasureDefinitionTest extends Specification {
             uri == QUALIFIER.uri
         }
         definition.aggregation == 'avg'
-        definition.showInPercent
+        definition.computeRatio
         with(definition.filters[0] as PositiveAttributeFilter) {
             (it.displayForm as ObjUriQualifier).uri == QUALIFIER.uri
             it.in == ['foo']
@@ -67,7 +67,7 @@ class SimpleMeasureDefinitionTest extends Specification {
 
         then:
         !definition.hasAggregation()
-        !definition.hasShowInPercent()
+        !definition.hasComputeRatio()
         !definition.hasFilters()
         !definition.isAdHoc()
 
@@ -78,7 +78,7 @@ class SimpleMeasureDefinitionTest extends Specification {
         when:
         def definition = new SimpleMeasureDefinition(new ObjIdentifierQualifier("id"))
         definition.setAggregation(Aggregation.AVG)
-        definition.setShowInPercent(true)
+        definition.setComputeRatio(true)
         definition.addFilter(new PositiveAttributeFilter(new ObjIdentifierQualifier("f")))
 
         then:
@@ -87,8 +87,8 @@ class SimpleMeasureDefinitionTest extends Specification {
         definition.hasAggregation()
         definition.aggregation == 'avg'
 
-        definition.hasShowInPercent()
-        definition.getShowInPercent()
+        definition.hasComputeRatio()
+        definition.getComputeRatio()
 
         definition.hasFilters()
     }

@@ -31,7 +31,7 @@ public class SimpleMeasureDefinition implements MeasureDefinition {
 
     private final ObjQualifier item;
     private String aggregation;
-    private Boolean showInPercent;
+    private Boolean computeRatio;
     private List<FilterItem> filters;
 
     public SimpleMeasureDefinition(final ObjQualifier item) {
@@ -42,38 +42,38 @@ public class SimpleMeasureDefinition implements MeasureDefinition {
      * Creates new definition
      * @param item item which is measured
      * @param aggregation additional aggregation applied
-     * @param showInPercent whether should be shown in percent
+     * @param computeRatio whether should be shown in percent
      * @param filters additional filters applied
      */
     @JsonCreator
     public SimpleMeasureDefinition(@JsonProperty("item") final ObjQualifier item,
                                    @JsonProperty("aggregation") final String aggregation,
-                                   @JsonProperty("showInPercent") final Boolean showInPercent,
+                                   @JsonProperty("computeRatio") final Boolean computeRatio,
                                    @JsonProperty("filters") final List<FilterItem> filters) {
         this.item = item;
         this.aggregation = aggregation;
-        this.showInPercent = showInPercent;
+        this.computeRatio = computeRatio;
         this.filters = filters;
     }
 
-    public SimpleMeasureDefinition(final ObjQualifier item, final Aggregation aggregation, final Boolean showInPercent,
+    public SimpleMeasureDefinition(final ObjQualifier item, final Aggregation aggregation, final Boolean computeRatio,
                                    final List<FilterItem> filters) {
-        this(item, notNull(aggregation, "aggregation").toString(), showInPercent, filters);
+        this(item, notNull(aggregation, "aggregation").toString(), computeRatio, filters);
     }
 
-    public SimpleMeasureDefinition(final ObjQualifier item, final Aggregation aggregation, final Boolean showInPercent,
+    public SimpleMeasureDefinition(final ObjQualifier item, final Aggregation aggregation, final Boolean computeRatio,
                                    final FilterItem... filters) {
-        this(item, aggregation, showInPercent, asList(filters));
+        this(item, aggregation, computeRatio, asList(filters));
     }
 
     @Override
     public MeasureDefinition withObjUriQualifier(final ObjUriQualifier qualifier) {
-        return new SimpleMeasureDefinition(qualifier, aggregation, showInPercent, filters);
+        return new SimpleMeasureDefinition(qualifier, aggregation, computeRatio, filters);
     }
 
     @Override
     public boolean isAdHoc() {
-        return hasAggregation() || hasShowInPercent() || hasFilters();
+        return hasAggregation() || hasComputeRatio() || hasFilters();
     }
 
     @Override
@@ -102,12 +102,12 @@ public class SimpleMeasureDefinition implements MeasureDefinition {
         setAggregation(notNull(aggregation, "aggregation").toString());
     }
 
-    public Boolean getShowInPercent() {
-        return showInPercent;
+    public Boolean getComputeRatio() {
+        return computeRatio;
     }
 
-    public void setShowInPercent(final Boolean showInPercent) {
-        this.showInPercent = showInPercent;
+    public void setComputeRatio(final Boolean computeRatio) {
+        this.computeRatio = computeRatio;
     }
 
     public List<FilterItem> getFilters() {
@@ -134,8 +134,8 @@ public class SimpleMeasureDefinition implements MeasureDefinition {
         return filters != null && !filters.isEmpty();
     }
 
-    public boolean hasShowInPercent() {
-        return showInPercent != null && showInPercent;
+    public boolean hasComputeRatio() {
+        return computeRatio != null && computeRatio;
     }
 
     public boolean hasAggregation() {
