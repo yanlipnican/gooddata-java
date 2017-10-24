@@ -15,7 +15,7 @@ import com.gooddata.featureflag.FeatureFlagService;
 import com.gooddata.md.maintenance.ExportImportService;
 import com.gooddata.notification.NotificationService;
 import com.gooddata.projecttemplate.ProjectTemplateService;
-import com.gooddata.compute.ComputeService;
+import com.gooddata.executeafm.ComputeService;
 import com.gooddata.util.ResponseErrorHandler;
 import com.gooddata.authentication.LoginPasswordAuthentication;
 import com.gooddata.warehouse.WarehouseService;
