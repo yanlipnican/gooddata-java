@@ -23,9 +23,9 @@ import static com.gooddata.util.Validate.notNull;
 /**
  * Allows to start computation and handle it's result.
  */
-public class ComputeService extends AbstractService {
+public class ExecuteAfmService extends AbstractService {
 
-    private static final String URI = "/gdc/app/projects/{projectId}/compute";
+    private static final String URI = "/gdc/app/projects/{projectId}/executeAfm";
 
     /**
      * Sets RESTful HTTP Spring template. Should be called from constructor of concrete service extending
@@ -34,25 +34,25 @@ public class ComputeService extends AbstractService {
      * @param restTemplate RESTful HTTP Spring template
      * @param settings settings
      */
-    public ComputeService(final RestTemplate restTemplate, final GoodDataSettings settings) {
+    public ExecuteAfmService(final RestTemplate restTemplate, final GoodDataSettings settings) {
         super(restTemplate, settings);
     }
 
     /**
-     * Compute the given computation for given project.
+     * Executes the given execution for given project.
      * @param project project
-     * @param computation computation
-     * @return future computation result
+     * @param execution execution
+     * @return future execution result
      */
-    public FutureResult<ComputationResult> compute(final Project project, final Computation computation) {
+    public FutureResult<ComputationResult> executeAfm(final Project project, final Execution execution) {
         notNull(notNull(project, "project").getId(), "project.id");
-        notNull(computation, "computation");
+        notNull(execution, "execution");
 
         final UriResponse uri;
         try {
-            uri = restTemplate.postForObject(URI, computation, UriResponse.class, project.getId());
+            uri = restTemplate.postForObject(URI, execution, UriResponse.class, project.getId());
         } catch (GoodDataException | RestClientException e) {
-            throw new ComputeException("Cannot post afm computation", e);
+            throw new ExecuteAfmException("Cannot post afm execution", e);
         }
 
         return new PollResult<>(this, new AbstractPollHandler<UriResponse, ComputationResult>(uri.getUri(), UriResponse.class, ComputationResult.class) {
@@ -61,13 +61,13 @@ public class ComputeService extends AbstractService {
                 try {
                     setResult(restTemplate.getForObject(getPolling(), ComputationResult.class));
                 } catch (GoodDataException | RestClientException e) {
-                    throw new ComputeException("Can't get computation result from uri: " + pollResult.getUri(), e);
+                    throw new ExecuteAfmException("Can't get execution result from uri: " + pollResult.getUri(), e);
                 }
             }
 
             @Override
             public void handlePollException(final GoodDataRestException e) {
-                throw new ComputeException("Can't compute computation", e);
+                throw new ExecuteAfmException("Can't executeAfm execution", e);
             }
         });
     }

@@ -20,20 +20,20 @@ import static net.jadler.Jadler.onRequest;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class ComputeServiceIT extends AbstractGoodDataIT {
+public class ExecuteAfmServiceIT extends AbstractGoodDataIT {
 
-    private static final String COMPUTE_URI = "/gdc/app/projects/PROJECT_ID/compute";
+    private static final String COMPUTE_URI = "/gdc/app/projects/PROJECT_ID/executeAfm";
     private static final String POLLING_URI = COMPUTE_URI + "/computationResultId";
-    private static final Computation TRANSFORMATION = new Computation(new ObjectAfm());
+    private static final Execution TRANSFORMATION = new Execution(new ObjectAfm());
     private byte[] pollingBody;
 
     private Project project;
-    private ComputeService service;
+    private ExecuteAfmService service;
 
     @BeforeMethod
     public void setUp() throws Exception {
         project = readObjectFromResource("/project/project.json", Project.class);
-        service = gd.getComputeService();
+        service = gd.getExecuteAfmService();
         pollingBody = OBJECT_MAPPER.writeValueAsBytes(new UriResponse(POLLING_URI));
     }
 
@@ -56,11 +56,11 @@ public class ComputeServiceIT extends AbstractGoodDataIT {
                 .withStatus(200)
                 .withBody(readFromResource("/executeafm/result/computationResult.json"));
 
-        final ComputationResult response = service.compute(project, TRANSFORMATION).get();
+        final ComputationResult response = service.executeAfm(project, TRANSFORMATION).get();
         assertThat(response, notNullValue());
     }
 
-    @Test(expectedExceptions = ComputeException.class)
+    @Test(expectedExceptions = ExecuteAfmException.class)
     public void shouldThrowOnBadRequest() throws Exception {
         onRequest()
                 .havingMethodEqualTo("POST")
@@ -68,10 +68,10 @@ public class ComputeServiceIT extends AbstractGoodDataIT {
             .respond()
                 .withStatus(400);
 
-        service.compute(project, TRANSFORMATION).get();
+        service.executeAfm(project, TRANSFORMATION).get();
     }
 
-    @Test(expectedExceptions = ComputeException.class)
+    @Test(expectedExceptions = ExecuteAfmException.class)
     public void shouldThrowOnFailedPolling() throws Exception {
         onRequest()
                 .havingMethodEqualTo("POST")
@@ -86,10 +86,10 @@ public class ComputeServiceIT extends AbstractGoodDataIT {
             .respond()
                 .withStatus(500);
 
-        service.compute(project, TRANSFORMATION).get();
+        service.executeAfm(project, TRANSFORMATION).get();
     }
 
-    @Test(expectedExceptions = ComputeException.class)
+    @Test(expectedExceptions = ExecuteAfmException.class)
     public void shouldThrowOnFailedResult() throws Exception {
         onRequest()
                 .havingMethodEqualTo("POST")
@@ -110,6 +110,6 @@ public class ComputeServiceIT extends AbstractGoodDataIT {
             .thenRespond()
                 .withStatus(500);
 
-        service.compute(project, TRANSFORMATION).get();
+        service.executeAfm(project, TRANSFORMATION).get();
     }
 }

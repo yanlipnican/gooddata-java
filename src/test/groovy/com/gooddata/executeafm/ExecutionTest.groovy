@@ -15,7 +15,7 @@ import static net.javacrumbs.jsonunit.JsonMatchers.jsonEquals
 import static net.javacrumbs.jsonunit.core.util.ResourceUtils.resource
 import static spock.util.matcher.HamcrestSupport.that
 
-class ComputationTest extends Specification {
+class ExecutionTest extends Specification {
 
     private static final ObjUriQualifier QUALIFIER = new ObjUriQualifier('/gdc/md/projectId/obj/1')
     private static final String COMPUTATION_JSON = 'executeafm/computation.json'
@@ -23,7 +23,7 @@ class ComputationTest extends Specification {
 
     def "should serialize"() {
         expect:
-        that new Computation(
+        that new Execution(
                 new ObjectAfm(
                         [new AttributeItem(QUALIFIER)],
                         [new ExpressionFilter('some expression')],
@@ -36,7 +36,7 @@ class ComputationTest extends Specification {
 
     def "should serialize full"() {
         expect:
-        that new Computation(
+        that new Execution(
                 new ObjectAfm(
                         [new AttributeItem(QUALIFIER)],
                         [new ExpressionFilter('some expression')],
@@ -59,7 +59,7 @@ class ComputationTest extends Specification {
 
     def "should deserialize"() {
         when:
-        Computation computation = readObjectFromResource("/$COMPUTATION_JSON", Computation)
+        Execution computation = readObjectFromResource("/$COMPUTATION_JSON", Execution)
 
         then:
         computation.afm != null
@@ -69,7 +69,7 @@ class ComputationTest extends Specification {
 
     def "should deserialize full"() {
         when:
-        Computation computation = readObjectFromResource("/$COMPUTATION_FULL_JSON", Computation)
+        Execution computation = readObjectFromResource("/$COMPUTATION_FULL_JSON", Execution)
 
         then:
         computation.afm != null
@@ -79,7 +79,7 @@ class ComputationTest extends Specification {
 
     def "should change resultSpec"() {
         given:
-        Computation computation = new Computation(new ObjectAfm())
+        Execution computation = new Execution(new ObjectAfm())
         ResultSpec spec = new ResultSpec()
 
         when:

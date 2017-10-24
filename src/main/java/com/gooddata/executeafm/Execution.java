@@ -15,24 +15,24 @@ import com.gooddata.executeafm.resultspec.ResultSpec;
 import com.gooddata.util.GoodDataToStringBuilder;
 
 /**
- * Represents structure for triggering computation of contained AFM (Attributes Filters Metrics).
+ * Represents structure for triggering execution of contained AFM (Attributes Filters Metrics).
  */
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NAME)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonTypeName("computation")
-public class Computation {
+@JsonTypeName("execution")
+public class Execution {
 
     private final ObjectAfm afm;
     private ResultSpec resultSpec;
 
     @JsonCreator
-    public Computation(@JsonProperty("afm") final ObjectAfm afm,
-                       @JsonProperty("resultSpec") final ResultSpec resultSpec) {
+    public Execution(@JsonProperty("afm") final ObjectAfm afm,
+                     @JsonProperty("resultSpec") final ResultSpec resultSpec) {
         this.afm = afm;
         this.resultSpec = resultSpec;
     }
 
-    public Computation(final ObjectAfm afm) {
+    public Execution(final ObjectAfm afm) {
         this.afm = afm;
     }
 

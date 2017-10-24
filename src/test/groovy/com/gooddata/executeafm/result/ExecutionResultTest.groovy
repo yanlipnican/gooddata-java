@@ -9,7 +9,7 @@ import spock.lang.Specification
 
 import static com.gooddata.util.ResourceUtils.readObjectFromResource
 
-class ComputationResultTest extends Specification {
+class ExecutionResultTest extends Specification {
 
     // todo serialize
 

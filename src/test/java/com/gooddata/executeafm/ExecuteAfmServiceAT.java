@@ -10,13 +10,13 @@ import com.gooddata.executeafm.afm.AttributeItem;
 import com.gooddata.executeafm.afm.ObjectAfm;
 import org.testng.annotations.Test;
 
-public class ComputeServiceAT extends AbstractGoodDataAT {
+public class ExecuteAfmServiceAT extends AbstractGoodDataAT {
 
     @Test(groups = "executeafm", dependsOnGroups = "dataset", enabled = false)
     public void testExecute() throws Exception {
-        final Computation computation = new Computation(new ObjectAfm()
+        final Execution execution = new Execution(new ObjectAfm()
                 .addAttribute(new AttributeItem(new ObjIdentifierQualifier("attr.person.name")))
                 .addAttribute(new AttributeItem(new ObjIdentifierQualifier("attr.person.role"))));
-        gd.getComputeService().compute(project, computation).get();
+        gd.getExecuteAfmService().executeAfm(project, execution).get();
     }
 }

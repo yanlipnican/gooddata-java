@@ -14,21 +14,21 @@ import spock.lang.Specification
 import spock.lang.Subject
 
 
-class ComputeServiceTest extends Specification {
+class ExecuteAfmServiceTest extends Specification {
 
-    @Subject ComputeService service
+    @Subject ExecuteAfmService service
 
     @Shared Project projectWithoutId = Stub() { getId() >> null }
     @Shared Project projectWithId = Stub() { getId() >> 'id' }
-    @Shared Computation computation = new Computation(new ObjectAfm())
+    @Shared Execution computation = new Execution(new ObjectAfm())
 
     void setup() {
-        service = new ComputeService(Mock(RestTemplate), new GoodDataSettings())
+        service = new ExecuteAfmService(Mock(RestTemplate), new GoodDataSettings())
     }
 
     def "execute should throw for invalid arguments"() {
         when:
-        service.compute(project, afmTransformation)
+        service.executeAfm(project, afmTransformation)
 
         then:
         thrown(IllegalArgumentException)

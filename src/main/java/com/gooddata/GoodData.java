@@ -15,7 +15,7 @@ import com.gooddata.featureflag.FeatureFlagService;
 import com.gooddata.md.maintenance.ExportImportService;
 import com.gooddata.notification.NotificationService;
 import com.gooddata.projecttemplate.ProjectTemplateService;
-import com.gooddata.executeafm.ComputeService;
+import com.gooddata.executeafm.ExecuteAfmService;
 import com.gooddata.util.ResponseErrorHandler;
 import com.gooddata.authentication.LoginPasswordAuthentication;
 import com.gooddata.warehouse.WarehouseService;
@@ -89,7 +89,7 @@ public class GoodData {
     private final ProjectTemplateService projectTemplateService;
     private final ExportService exportService;
     private final AuditEventService auditEventService;
-    private final ComputeService computeService;
+    private final ExecuteAfmService executeAfmService;
 
     /**
      * Create instance configured to communicate with GoodData Platform under user with given credentials.
@@ -226,7 +226,7 @@ public class GoodData {
         outputStageService = new OutputStageService(getRestTemplate(), settings);
         projectTemplateService = new ProjectTemplateService(getRestTemplate(), settings);
         auditEventService = new AuditEventService(getRestTemplate(), accountService, settings);
-        computeService = new ComputeService(getRestTemplate(), settings);
+        executeAfmService = new ExecuteAfmService(getRestTemplate(), settings);
     }
 
     static RestTemplate createRestTemplate(GoodDataEndpoint endpoint, HttpClient httpClient) {
@@ -384,7 +384,7 @@ public class GoodData {
     }
 
     /**
-     * Get initialized service for report management (to compute and export report, ...)
+     * Get initialized service for report management (to executeAfm and export report, ...)
      *
      * @return initialized service for report management
      */
@@ -494,8 +494,8 @@ public class GoodData {
     }
 
     @Bean
-    public ComputeService getComputeService() {
-        return this.computeService;
+    public ExecuteAfmService getExecuteAfmService() {
+        return this.executeAfmService;
     }
 
 }
