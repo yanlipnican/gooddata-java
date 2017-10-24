@@ -28,9 +28,9 @@ class AttributeItemTest extends Specification {
         that item, jsonEquals(resource(file))
 
         where:
-        set        | item                                    | file
-        'all'      | new AttributeItem(QUALIFIER, 'localId') | ATTRIBUTE_ITEM_FULL_JSON
-        'required' | new AttributeItem(QUALIFIER)            | ATTRIBUTE_ITEM_JSON
+        set        | item                                             | file
+        'all'      | new AttributeItem(QUALIFIER, 'localId', 'alias') | ATTRIBUTE_ITEM_FULL_JSON
+        'required' | new AttributeItem(QUALIFIER, 'localId')          | ATTRIBUTE_ITEM_JSON
     }
 
     def "should deserialize all values"() {
@@ -49,14 +49,15 @@ class AttributeItemTest extends Specification {
 
         then:
         item.displayForm == QUALIFIER
+        item.localIdentifier == 'localId'
     }
 
     def "should set properties"() {
         when:
-        def item = new AttributeItem(new ObjIdentifierQualifier("id"))
-        item.setLocalIdentifier("lId")
+        def item = new AttributeItem(new ObjIdentifierQualifier("id"), 'aId')
+        item.setAlias('alias')
 
         then:
-        item.getLocalIdentifier() == "lId"
+        item.alias == "alias"
     }
 }

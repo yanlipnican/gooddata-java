@@ -17,33 +17,32 @@ import com.gooddata.util.GoodDataToStringBuilder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AttributeItem implements LocallyIdentifiable {
 
-    private String localIdentifier;
+    private final String localIdentifier;
     private final ObjQualifier displayForm;
+    private String alias;
+
+    /**
+     * Creates new instance
+     * @param displayForm qualifier of {@link com.gooddata.md.AttributeDisplayForm} representing the attribute
+     * @param localIdentifier local identifier, unique within {@link ObjectAfm}
+     * @param alias attribute alias
+     */
+    @JsonCreator
+    public AttributeItem(@JsonProperty("displayForm") final ObjQualifier displayForm,
+                         @JsonProperty("localIdentifier") final String localIdentifier,
+                         @JsonProperty("alias") final String alias) {
+        this.localIdentifier = localIdentifier;
+        this.displayForm = displayForm;
+        this.alias = alias;
+    }
 
     /**
      * Creates new instance
      * @param displayForm qualifier of {@link com.gooddata.md.AttributeDisplayForm} representing the attribute
      * @param localIdentifier local identifier, unique within {@link ObjectAfm}
      */
-    @JsonCreator
-    public AttributeItem(@JsonProperty("displayForm") final ObjQualifier displayForm, @JsonProperty("localIdentifier") final String localIdentifier) {
-        this.localIdentifier = localIdentifier;
+    public AttributeItem(final ObjQualifier displayForm, final String localIdentifier) {
         this.displayForm = displayForm;
-    }
-
-    /**
-     * Creates new instance
-     * @param displayForm qualifier of {@link com.gooddata.md.AttributeDisplayForm} representing the attribute
-     */
-    public AttributeItem(final ObjQualifier displayForm) {
-        this.displayForm = displayForm;
-    }
-
-    /**
-     * Sets local identifier, unique within {@link ObjectAfm}
-     * @param localIdentifier local identifier
-     */
-    public void setLocalIdentifier(final String localIdentifier) {
         this.localIdentifier = localIdentifier;
     }
 
@@ -59,6 +58,21 @@ public class AttributeItem implements LocallyIdentifiable {
      */
     public ObjQualifier getDisplayForm() {
         return displayForm;
+    }
+
+    /**
+     * @return attribute alias
+     */
+    public String getAlias() {
+        return alias;
+    }
+
+    /**
+     * Sets attribute alias
+     * @param alias alias
+     */
+    public void setAlias(final String alias) {
+        this.alias = alias;
     }
 
     @Override

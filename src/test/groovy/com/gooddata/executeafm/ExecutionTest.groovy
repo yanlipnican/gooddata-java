@@ -25,7 +25,7 @@ class ExecutionTest extends Specification {
         expect:
         that new Execution(
                 new ObjectAfm(
-                        [new AttributeItem(QUALIFIER)],
+                        [new AttributeItem(QUALIFIER, 'a1')],
                         [new ExpressionFilter('some expression')],
                         [new MeasureItem(new SimpleMeasureDefinition(QUALIFIER))],
                         [new NativeTotalItem('mId', 'a1', 'a2')]
@@ -38,7 +38,7 @@ class ExecutionTest extends Specification {
         expect:
         that new Execution(
                 new ObjectAfm(
-                        [new AttributeItem(QUALIFIER)],
+                        [new AttributeItem(QUALIFIER, 'a1')],
                         [new ExpressionFilter('some expression')],
                         [new MeasureItem(new SimpleMeasureDefinition(QUALIFIER))],
                         [new NativeTotalItem('mId', 'a1', 'a2')]

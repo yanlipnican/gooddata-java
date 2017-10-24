@@ -25,7 +25,7 @@ class ObjectAfmTest extends Specification {
     def "should serialize full"() {
         expect:
         that new ObjectAfm(
-                [new AttributeItem(QUALIFIER)],
+                [new AttributeItem(QUALIFIER, 'a1')],
                 [new ExpressionFilter('some expression')],
                 [new MeasureItem(new SimpleMeasureDefinition(QUALIFIER))],
                 [new NativeTotalItem('mId', 'a1', 'a2')]
@@ -88,9 +88,9 @@ class ObjectAfmTest extends Specification {
         when:
         def afm = new ObjectAfm()
         afm.addFilter(Spy(CompatibilityFilter))
-        afm.addAttribute(new AttributeItem(new ObjIdentifierQualifier("id")))
+        afm.addAttribute(new AttributeItem(new ObjIdentifierQualifier('id'), 'localIdA'))
         afm.addMeasure(new MeasureItem(Spy(MeasureDefinition)))
-        afm.addNativeTotal(new NativeTotalItem("mId"))
+        afm.addNativeTotal(new NativeTotalItem('mId'))
 
         then:
         !afm.getFilters().isEmpty()

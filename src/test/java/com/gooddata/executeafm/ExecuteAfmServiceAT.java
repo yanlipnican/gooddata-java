@@ -15,8 +15,8 @@ public class ExecuteAfmServiceAT extends AbstractGoodDataAT {
     @Test(groups = "executeafm", dependsOnGroups = "dataset", enabled = false)
     public void testExecute() throws Exception {
         final Execution execution = new Execution(new ObjectAfm()
-                .addAttribute(new AttributeItem(new ObjIdentifierQualifier("attr.person.name")))
-                .addAttribute(new AttributeItem(new ObjIdentifierQualifier("attr.person.role"))));
+                .addAttribute(new AttributeItem(new ObjIdentifierQualifier("attr.person.name"), "localId"))
+                .addAttribute(new AttributeItem(new ObjIdentifierQualifier("attr.person.role"), "localId")));
         gd.getExecuteAfmService().executeAfm(project, execution).get();
     }
 }
