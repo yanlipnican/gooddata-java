@@ -8,7 +8,7 @@ package com.gooddata.executeafm.afm;
 /**
  * Marker interface for all locally identifiable objects having local identifier in AFM
  */
-interface LocallyIdentifiable {
+public interface LocallyIdentifiable {
     /**
      * @return Value of local identifier
      */

@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.gooddata.executeafm.afm.LocallyIdentifiable;
 import com.gooddata.util.GoodDataToStringBuilder;
 
 import static com.gooddata.util.Validate.notEmpty;
@@ -17,7 +18,7 @@ import static com.gooddata.util.Validate.notEmpty;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NAME)
 @JsonTypeName("measureHeaderItem")
-public class MeasureHeaderItem {
+public class MeasureHeaderItem implements LocallyIdentifiable {
 
     private final String name;
     private final String format;

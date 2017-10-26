@@ -8,13 +8,14 @@ package com.gooddata.executeafm.response;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
+import com.gooddata.executeafm.afm.LocallyIdentifiable;
 
 import java.util.List;
 
 import static com.gooddata.util.Validate.notEmpty;
 
 @JsonRootName(AttributeHeader.NAME)
-public class AttributeHeader extends Header {
+public class AttributeHeader extends Header implements LocallyIdentifiable {
 
     static final String NAME = "attributeHeader";
 
