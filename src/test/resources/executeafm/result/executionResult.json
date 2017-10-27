@@ -6,15 +6,13 @@
           {
             "attributeHeaderItem": {
               "uri": "/gdc/md/FoodMartDemo/obj/124/elements?id=3200",
-              "name": "Cost of Goods Sold",
-              "identifier": "element"
+              "name": "Cost of Goods Sold"
             }
           },
           {
             "attributeHeaderItem": {
               "uri": "/gdc/md/FoodMartDemo/obj/124/elements?id=6000",
-              "name": "Salaries",
-              "identifier": "element"
+              "name": "Salaries"
             }
           }
         ]
