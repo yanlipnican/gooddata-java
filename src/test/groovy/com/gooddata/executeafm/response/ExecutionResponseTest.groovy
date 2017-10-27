@@ -5,45 +5,69 @@
  */
 package com.gooddata.executeafm.response
 
-import com.gooddata.executeafm.response.AttributeHeader
-import com.gooddata.executeafm.response.ExecutionResponse
-import com.gooddata.executeafm.response.MeasureGroupHeader
-import com.gooddata.executeafm.response.MeasureHeaderItem
 import spock.lang.Specification
 
 import static com.gooddata.util.ResourceUtils.readObjectFromResource
+import static net.javacrumbs.jsonunit.JsonMatchers.jsonEquals
+import static net.javacrumbs.jsonunit.core.util.ResourceUtils.resource
+import static spock.util.matcher.HamcrestSupport.that
 
 class ExecutionResponseTest extends Specification {
 
-    // todo serialize
+    private static final String EXECUTION_RESPONSE_JSON = 'executeafm/response/executionResponse.json'
+
+    def "should serialize"() {
+        expect:
+        that new ExecutionResponse(
+                [
+                        new ResultDimension('x', [
+                                new AttributeHeader('Account', 'account', '/gdc/md/FoodMartDemo/obj/124', 'attr.account'),
+                                new AttributeHeader('Account Type', 'accountType', '/gdc/md/FoodMartDemo/obj/113', 'attr.accountType'),
+                                new MeasureGroupHeader([
+                                        new MeasureHeaderItem('Accounting Amount [Sum]', 'format1', 'sum', '/gdc/md/FoodMartDemo/obj/114', 'metric.sum'),
+                                        new MeasureHeaderItem('Accounting Amount [Avg]', 'format2', 'avg', '/gdc/md/FoodMartDemo/obj/115', 'metric.avg')
+                                ])])
+                ], 'poll'),
+                jsonEquals(resource(EXECUTION_RESPONSE_JSON))
+    }
 
     def "should deserialize"() {
         when:
-        ExecutionResponse result = readObjectFromResource('/executeafm/response/executionResponse.json', ExecutionResponse)
+        ExecutionResponse response = readObjectFromResource("/$EXECUTION_RESPONSE_JSON", ExecutionResponse)
 
         then:
-        result.links["uri"] == "poll"
+        response.links['dataResult'] == 'poll'
+        response.dataResultUri == 'poll'
 
-        result.dimensions.size() == 1
-        result.dimensions[0].name == "x"
-        result.dimensions[0].headers.size() == 3
+        response.dimensions.size() == 1
+        response.dimensions[0].name == 'x'
+        response.dimensions[0].headers.size() == 3
 
-        AttributeHeader account = result.dimensions[0].headers[0] as AttributeHeader
-        account.name == "Account"
-        account.uri == "/gdc/md/FoodMartDemo/obj/124"
+        AttributeHeader account = response.dimensions[0].headers[0] as AttributeHeader
+        account.name == 'Account'
+        account.uri == '/gdc/md/FoodMartDemo/obj/124'
+        account.localIdentifier == 'account'
+        account.identifier == 'attr.account'
 
-        AttributeHeader accountType = result.dimensions[0].headers[1] as AttributeHeader
-        accountType.name == "Account Type"
-        accountType.uri == "/gdc/md/FoodMartDemo/obj/113"
+        AttributeHeader accountType = response.dimensions[0].headers[1] as AttributeHeader
+        accountType.name == 'Account Type'
+        accountType.uri == '/gdc/md/FoodMartDemo/obj/113'
+        accountType.localIdentifier == 'accountType'
+        accountType.identifier == 'attr.accountType'
 
-        MeasureGroupHeader measureGroupHeader = result.dimensions[0].headers[2] as MeasureGroupHeader
+        MeasureGroupHeader measureGroupHeader = response.dimensions[0].headers[2] as MeasureGroupHeader
 
         List<MeasureHeaderItem> metricHeaderItems = measureGroupHeader.items as List<MeasureHeaderItem>
-        metricHeaderItems[0].uri == "0" // todo
-        metricHeaderItems[0].name == "Accounting Amount [Sum]"
-        metricHeaderItems[1].uri == "0" // todo
-        metricHeaderItems[1].name == "Accounting Amount [Avg]"
-
+        metricHeaderItems[0].uri == '/gdc/md/FoodMartDemo/obj/114'
+        metricHeaderItems[0].identifier == 'metric.sum'
+        metricHeaderItems[0].name == 'Accounting Amount [Sum]'
+        metricHeaderItems[0].localIdentifier == 'sum'
+        metricHeaderItems[0].format == "format1"
+        metricHeaderItems[1].uri == '/gdc/md/FoodMartDemo/obj/115'
+        metricHeaderItems[1].identifier == 'metric.avg'
+        metricHeaderItems[1].name == 'Accounting Amount [Avg]'
+        metricHeaderItems[1].localIdentifier == 'avg'
+        metricHeaderItems[1].format == 'format2'
     }
 
 }
