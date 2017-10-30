@@ -18,9 +18,9 @@ class ExecutionResultTest extends Specification {
         ExecutionResult result = readObjectFromResource('/executeafm/result/executionResult.json', ExecutionResult)
 
         then:
-        result.offset == [0]
-        result.size == [4]
-        result.overallSize == [4]
+        result.paging.offset == [0]
+        result.paging.size == [4]
+        result.paging.total == [4]
 
         result.data == [ "-12958511.8099999", "25315434.8199999", "-2748323.76", "-7252542.67"]
 
