@@ -26,6 +26,11 @@ public final class ValueAttributeFilterElements implements AttributeFilterElemen
     }
 
     @Override
+    public List<String> getElements() {
+        return getValues();
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

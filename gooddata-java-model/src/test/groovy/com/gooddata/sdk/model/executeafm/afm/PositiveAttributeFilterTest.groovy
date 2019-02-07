@@ -19,26 +19,41 @@ import static spock.util.matcher.HamcrestSupport.that
 
 class PositiveAttributeFilterTest extends Specification {
 
-    private static final String POSITIVE_ATTRIBUTE_FILTER_JSON = 'executeafm/afm/positiveAttributeFilter.json'
+    private static final String POSITIVE_ATTRIBUTE_FILTER_SIMPLE_JSON = 'executeafm/afm/positiveAttributeFilterSimple.json'
+    private static final String POSITIVE_ATTRIBUTE_FILTER_URIS_JSON = 'executeafm/afm/positiveAttributeFilterUris.json'
+    private static final String POSITIVE_ATTRIBUTE_FILTER_VALUES_JSON = 'executeafm/afm/positiveAttributeFilterValues.json'
 
     private static final ObjQualifier QUALIFIER = new IdentifierObjQualifier('df.bum.bac')
 
     def "should serialize"() {
         expect:
-        that new PositiveAttributeFilter(QUALIFIER, 'a', 'b'),
-                jsonEquals(resource(POSITIVE_ATTRIBUTE_FILTER_JSON))
+        that new PositiveAttributeFilter(QUALIFIER, elements),
+                jsonEquals(resource(jsonPath))
+
+        where:
+        elements                                     | jsonPath
+//        ['a', 'b']                                   | POSITIVE_ATTRIBUTE_FILTER_SIMPLE_JSON
+//        new UriAttributeFilterElements(['a', 'b'])   | POSITIVE_ATTRIBUTE_FILTER_URIS_JSON
+        new ValueAttributeFilterElements(['a', 'b']) | POSITIVE_ATTRIBUTE_FILTER_VALUES_JSON
     }
 
     def "should deserialize"() {
         when:
-        PositiveAttributeFilter filter = readObjectFromResource("/$POSITIVE_ATTRIBUTE_FILTER_JSON", PositiveAttributeFilter)
+        PositiveAttributeFilter filter = readObjectFromResource("/$jsonPath", PositiveAttributeFilter)
 
         then:
         with(filter) {
             displayForm == QUALIFIER
-            getIn() == ['a', 'b']
+            getIn().getClass() == clazz
+            getIn().elements == ['a', 'b']
         }
         filter.toString()
+
+        where:
+        jsonPath                              | clazz
+        POSITIVE_ATTRIBUTE_FILTER_SIMPLE_JSON | UriAttributeFilterElements
+        POSITIVE_ATTRIBUTE_FILTER_URIS_JSON   | UriAttributeFilterElements
+        POSITIVE_ATTRIBUTE_FILTER_VALUES_JSON | ValueAttributeFilterElements
     }
 
     def "should copy"() {
@@ -51,7 +66,7 @@ class PositiveAttributeFilterTest extends Specification {
     }
 
     def "test serializable"() {
-        PositiveAttributeFilter attributeFilter = readObjectFromResource("/$POSITIVE_ATTRIBUTE_FILTER_JSON", PositiveAttributeFilter)
+        PositiveAttributeFilter attributeFilter = readObjectFromResource("/$POSITIVE_ATTRIBUTE_FILTER_SIMPLE_JSON", PositiveAttributeFilter)
         PositiveAttributeFilter deserialized = SerializationUtils.roundtrip(attributeFilter)
 
         expect:
